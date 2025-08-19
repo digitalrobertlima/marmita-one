@@ -18,14 +18,18 @@
     header h1{margin:6px 0 4px;font-size:clamp(22px,6vw,34px)}
     header p{margin:0;color:var(--muted)}
     .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#f6f6f6;border:1px solid var(--stroke);font-size:14px}
-
-    .topbar{position:sticky;top:0;z-index:10;background:#fff; border-bottom:1px solid var(--stroke)}
+  /* Barra de compatibilidade agora no fim da página */
+  .topbar{position:static;top:auto;z-index:10;background:#fff; border-top:1px solid var(--stroke); margin-top:16px}
     .topbar-inner{max-width:1024px;margin:0 auto;display:flex;gap:8px;align-items:center;justify-content:space-between;padding:10px 14px}
     .btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;padding:10px 12px;border-radius:12px;border:1px solid var(--stroke);cursor:pointer;font-weight:700;background:#fff}
     .btn-primary{background:var(--brand);color:#fff;border:0}
     .btn-ghost{border:1px dashed var(--stroke);color:#666}
     .btn-danger{background:#fff;color:var(--accent);border-color:#ffd5d8}
     .btn-promo{background:var(--promo);color:#402d00;border:0}
+
+  /* Logo quadrada vermelha arredondada */
+  .logo-square{width:40px;height:40px;border-radius:10px;background:#e10600;border:2px solid #b30000;box-shadow:0 2px 8px rgba(225,6,0,.15)}
+  .brand-mark{display:flex;align-items:center;gap:10px;justify-content:center}
 
     .grid{display:grid;gap:12px}
     @media(min-width:980px){ .grid{grid-template-columns: 2fr 1fr} }
@@ -73,18 +77,9 @@
   </style>
 </head>
 <body>
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div class="hint">Compatibilidade iOS</div>
-      <div class="actions">
-        <button id="btn-mode-ios" class="btn btn-promo">Estou usando iPhone</button>
-        <button id="btn-mode-default" class="btn">Modo padrão (Android/PC)</button>
-      </div>
-    </div>
-  </div>
-
   <div class="wrap">
     <header>
+      <div class="brand-mark" aria-hidden="true"><span class="logo-square" role="img" aria-label="Logo"></span></div>
       <h1 id="resto-nome">Restaurante (CONFIG)</h1>
       <p id="resto-sub">Seu prato, seu jeito. Monte agora!</p>
       <div class="pill">⏰ Pedidos até <strong id="cutoff-label">14:30</strong></div>
@@ -92,55 +87,55 @@
 
     <div class="grid">
       <section class="card" id="builder-default">
-        <h2>Monte sua marmita (padrão)</h2>
+        <h2>Monte sua marmita 🍽️ (padrão)</h2>
         <section style="margin-bottom:10px">
-          <h3 style="margin:0 0 8px">Tamanho</h3>
+          <h3 style="margin:0 0 8px">📦 Tamanho</h3>
           <fieldset class="list" id="sec-tamanho"></fieldset>
         </section>
         <section style="margin-bottom:10px">
-          <h3 style="margin:0 0 8px">Proteína</h3>
+          <h3 style="margin:0 0 8px">🥩 Proteína</h3>
           <div class="chips" id="sec-proteina"></div>
         </section>
         <section style="margin-bottom:10px">
-          <h3 style="margin:0 0 8px">Acompanhamentos & Saladas <small id="acc-hint" class="hint"></small></h3>
+          <h3 style="margin:0 0 8px">🥗 Acompanhamentos & Saladas <small id="acc-hint" class="hint"></small></h3>
           <div class="chips" id="sec-acc"></div>
         </section>
         <section class="row" style="margin-bottom:10px">
           <div>
-            <h3 style="margin:0 0 8px">Adicionais (R$ 2,00)</h3>
+            <h3 style="margin:0 0 8px">➕ Adicionais (R$ 2,00)</h3>
             <div class="chips" id="sec-add2"></div>
           </div>
           <div>
-            <h3 style="margin:0 0 8px">Carnes extras (R$ 8,00)</h3>
+            <h3 style="margin:0 0 8px">🍖 Carnes extras (R$ 8,00)</h3>
             <div class="chips" id="sec-add8"></div>
           </div>
         </section>
         <section style="margin-bottom:10px">
-          <h3 style="margin:0 0 8px">Bebidas</h3>
+          <h3 style="margin:0 0 8px">🥤 Bebidas</h3>
           <fieldset class="list" id="sec-bebidas"></fieldset>
         </section>
         <section style="margin-bottom:10px">
-          <h3 style="margin:0 0 8px">Observações do item</h3>
+          <h3 style="margin:0 0 8px">📝 Observações do item</h3>
           <textarea id="obs-item" placeholder="Preferências para ESTA marmita"></textarea>
         </section>
         <div class="actions">
-          <button class="btn btn-primary" id="btn-add">Adicionar ao carrinho</button>
-          <button class="btn btn-ghost" id="btn-reset">Limpar seleção</button>
+          <button class="btn btn-primary" id="btn-add">🛒 Adicionar ao carrinho</button>
+          <button class="btn btn-ghost" id="btn-reset">🧹 Limpar seleção</button>
         </div>
       </section>
 
       <section class="card hide" id="builder-ios">
-        <h2>iPhone — preenchimento rápido</h2>
+        <h2>🍎 iPhone — preenchimento rápido</h2>
         <p class="hint">Toque em uma opção pronta ou preencha manualmente. Campos em branco são opcionais.</p>
 
         <div class="row" id="ios-presets">
           <div class="card" style="border-style:dashed">
-            <h3 style="margin:0 0 8px">Opção 1</h3>
+            <h3 style="margin:0 0 8px">⭐ Opção 1</h3>
             <div class="hint" id="ios-op1-desc"></div>
             <div class="actions"><button class="btn btn-primary" id="btn-op1">Usar Opção 1</button></div>
           </div>
           <div class="card" style="border-style:dashed">
-            <h3 style="margin:0 0 8px">Opção 2</h3>
+            <h3 style="margin:0 0 8px">⭐ Opção 2</h3>
             <div class="hint" id="ios-op2-desc"></div>
             <div class="actions"><button class="btn btn-primary" id="btn-op2">Usar Opção 2</button></div>
           </div>
@@ -149,86 +144,86 @@
         <p class="hint" style="margin-top:8px">Ou personalize digitando abaixo (separe por vírgulas):</p>
         <div class="row">
           <div>
-            <label for="ios-tamanho">Tamanho (P ou G)</label>
+            <label for="ios-tamanho">📦 Tamanho (P ou G)</label>
             <input id="ios-tamanho" type="text" inputmode="text" placeholder="P ou G">
           </div>
           <div>
-            <label for="ios-proteina">Proteína</label>
+            <label for="ios-proteina">🥩 Proteína</label>
             <input id="ios-proteina" type="text" inputmode="text" placeholder="Ex.: Lombo, Carne cozida, Strogonoff">
           </div>
         </div>
         <div class="row">
           <div>
-            <label for="ios-acc">Acompanhamentos & Saladas</label>
+            <label for="ios-acc">🥗 Acompanhamentos & Saladas</label>
             <input id="ios-acc" type="text" inputmode="text" placeholder="Ex.: Arroz, Feijão, Salada verde">
           </div>
           <div>
-            <label for="ios-add2">Adicionais (+R$2 cada)</label>
+            <label for="ios-add2">➕ Adicionais (+R$2 cada)</label>
             <input id="ios-add2" type="text" inputmode="text" placeholder="Ex.: Arroz separado, Molho extra">
           </div>
         </div>
         <div class="row">
           <div>
-            <label for="ios-add8">Carnes extras (+R$8 cada)</label>
+            <label for="ios-add8">🍖 Carnes extras (+R$8 cada)</label>
             <input id="ios-add8" type="text" inputmode="text" placeholder="Ex.: Porção extra de strogonoff">
           </div>
           <div>
-            <label for="ios-bebidas">Bebidas</label>
+            <label for="ios-bebidas">🥤 Bebidas</label>
             <input id="ios-bebidas" type="text" inputmode="text" placeholder="Ex.: Coca 2L, Sprite lata">
           </div>
         </div>
         <div>
-          <label for="ios-obs">Observações do item</label>
+          <label for="ios-obs">📝 Observações do item</label>
           <input id="ios-obs" type="text" inputmode="text" placeholder="Ex.: Pouco sal, sem pimenta">
         </div>
         <div class="actions">
-          <button class="btn btn-primary" id="btn-add-ios">Adicionar ao carrinho</button>
-          <button class="btn btn-ghost" id="btn-reset-ios">Limpar campos</button>
+          <button class="btn btn-primary" id="btn-add-ios">🛒 Adicionar ao carrinho</button>
+          <button class="btn btn-ghost" id="btn-reset-ios">🧹 Limpar campos</button>
         </div>
       </section>
 
       <aside class="card cart" id="cart">
-        <h2>Seu carrinho</h2>
+        <h2>🧺 Seu carrinho</h2>
         <div class="cart-list" id="cart-list"></div>
         <div class="total">
           <strong>Total</strong>
           <div id="cart-total">R$ 0,00</div>
         </div>
         <div class="actions">
-          <button class="btn btn-danger" id="btn-clear-cart">Esvaziar carrinho</button>
+          <button class="btn btn-danger" id="btn-clear-cart">🗑️ Esvaziar carrinho</button>
         </div>
       </aside>
     </div>
 
     <section class="card" id="checkout" style="margin-top:12px">
-      <h2>Checkout</h2>
+      <h2>🧾 Checkout</h2>
       <div class="row">
         <div>
-          <label for="nome">Nome</label>
+          <label for="nome">🙍 Nome</label>
           <input id="nome" type="text" placeholder="Seu nome">
         </div>
         <div>
-          <label for="endereco">Endereço</label>
+          <label for="endereco">📍 Endereço</label>
           <input id="endereco" type="text" placeholder="Rua, número, complemento" autocomplete="street-address">
         </div>
       </div>
       <div class="row">
         <div>
-          <label for="bairro">Bairro</label>
+          <label for="bairro">🏘️ Bairro</label>
           <input id="bairro" type="text" placeholder="Ex.: Centro">
         </div>
         <div>
-          <label for="referencia">Ponto de referência</label>
+          <label for="referencia">📌 Ponto de referência</label>
           <input id="referencia" type="text" placeholder="Ex.: Próximo à padaria Y">
         </div>
       </div>
       <div class="row">
         <div>
-          <label for="hora">Horário</label>
+          <label for="hora">⏰ Horário</label>
           <input id="hora" type="time">
         </div>
         <div>
-          <label for="pagamento">Pagamento</label>
+          <label for="pagamento">💳 Pagamento</label>
           <select id="pagamento">
             <option value="">Selecione…</option>
             <option>PIX</option>
@@ -240,27 +235,38 @@
       </div>
 
       <div id="troco-wrap" style="display:none;margin-top:10px">
-        <label for="troco">Troco para (R$)</label>
+        <label for="troco">💵 Troco para (R$)</label>
         <input id="troco" type="number" step="1" inputmode="numeric" placeholder="Ex.: 100">
         <p class="hint">O sistema calcula o troco automaticamente.</p>
       </div>
 
       <div class="notice" id="taxa-notice">
-        <strong>Atenção:</strong> no momento da finalização no WhatsApp, será calculada a <u>taxa de entrega</u> em cima do valor total.
+        <strong>Atenção 🚚:</strong> no momento da finalização no WhatsApp, será calculada a <u>taxa de entrega</u> em cima do valor total.
       </div>
 
       <h3 style="margin:12px 0 8px">Prévia da mensagem</h3>
       <div id="preview" class="preview"></div>
       <div class="actions">
-        <button class="btn" id="btn-copy">Copiar mensagem</button>
-        <button class="btn btn-primary" id="btn-wa">Enviar pelo WhatsApp</button>
+        <button class="btn" id="btn-copy">📋 Copiar mensagem</button>
+        <button class="btn btn-primary" id="btn-wa">💬 Enviar pelo WhatsApp</button>
       </div>
       <div id="fb" class="hint" aria-live="polite"></div>
     </section>
 
     <footer>
+      <div class="brand-mark" aria-hidden="true" style="justify-content:center; margin-bottom:6px"><span class="logo-square" role="img" aria-label="Logo"></span></div>
       <small id="wa-number" data-phone="5531992034948">MARMITA.ONE • v0.3.1 • uso local/offline</small>
     </footer>
+
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-mark"><span class="logo-square" role="img" aria-label="Logo"></span><div class="hint">Compatibilidade iOS/Android</div></div>
+        <div class="actions">
+          <button id="btn-mode-ios" class="btn btn-promo">🍎 Estou usando iPhone</button>
+          <button id="btn-mode-default" class="btn">🤖 Modo padrão (Android/PC)</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 <script>
@@ -269,7 +275,7 @@ const CONFIG = {
   regras: { limiteAcompanhamentos: null, obrigatorios:["tamanho","proteina"], precoAdicional:2, precoCarneExtra:8 },
   tamanhos: [
     { id:"S", nome:"Pequena • 500 ml", valor:18.00, aliases:["p","pequena","500","pequeno"] },
-    { id:"L", nome:"Grande • 1 L",     valor:20.00, aliases:["g","grande","1l","1000","1 l"] }
+  { id:"L", nome:"Grande • 750 mL",  valor:20.00, aliases:["g","grande","750","750ml","750 ml","1l","1000","1 l"] }
   ],
   proteinas: [
     { nome:"Lombo assado ao molho madeira", aliases:["lombo","madeira"] },
