@@ -1,8 +1,8 @@
 {
-  "name": "Restaurante da Célia - Marmitas Delivery",
-  "short_name": "Célia Marmitas",
-  "description": "Peça suas marmitas favoritas de forma rápida e prática. Cardápio digital com opções personalizáveis e entrega via WhatsApp.",
-  "version": "2.0.0",
+  "name": "Marmita.One - Delivery Digital",
+  "short_name": "Marmita.One",
+  "description": "Plataforma digital para pedidos de marmitas. Cardápio interativo, personalização completa e entrega via WhatsApp.",
+  "version": "0.1.0-beta",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

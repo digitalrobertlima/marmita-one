@@ -1,11 +1,11 @@
 /**
- * PWA Service Worker - Restaurante da Célia
+ * PWA Service Worker - Marmita.One
  * Gerenciamento de cache e funcionalidade offline
  */
 
-const CACHE_NAME = 'restaurante-celia-v2.0.0';
-const STATIC_CACHE = 'static-v2.0.0';
-const DYNAMIC_CACHE = 'dynamic-v2.0.0';
+const CACHE_NAME = 'marmita-one-v0.1.0-beta';
+const STATIC_CACHE = 'static-v0.1.0-beta';
+const DYNAMIC_CACHE = 'dynamic-v0.1.0-beta';
 
 // Arquivos essenciais para cache
 const STATIC_ASSETS = [
@@ -212,7 +212,7 @@ self.addEventListener('push', (event) => {
   };
   
   event.waitUntil(
-    self.registration.showNotification('Restaurante da Célia', options)
+    self.registration.showNotification('Marmita.One', options)
   );
 });
 

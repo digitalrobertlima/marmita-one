@@ -1,6 +1,7 @@
 /**
- * PWA Manager - Restaurante da Célia
+ * PWA Manager - Marmita.One
  * Gerenciamento de funcionalidades PWA
+ * v0.1.0-beta
  */
 
 class PWAManager {
