@@ -1,0 +1,279 @@
+/**
+ * Style Principal - Restaurante da Célia PWA
+ * Sistema de design profissional e modular
+ */
+
+/* === FONTES EXTERNAS === */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* === ARQUIVOS BASE === */
+@import './variables.css';
+@import './reset.css';
+@import './components.css';
+
+/* === ESTILOS ESPECÍFICOS === */
+
+/* Layout principal */
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+  color: var(--neutral-white);
+  padding: var(--spacing-20) 0;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.app-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" fill-opacity="0.05"/><circle cx="75" cy="75" r="1" fill="white" fill-opacity="0.05"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  opacity: 0.3;
+}
+
+.app-main {
+  flex: 1;
+  padding: var(--spacing-8) 0;
+}
+
+.app-footer {
+  background-color: var(--neutral-100);
+  color: var(--color-text-muted);
+  padding: var(--spacing-6) 0;
+  text-align: center;
+  border-top: 1px solid var(--color-border);
+}
+
+/* Logo profissional */
+.brand-logo {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto var(--spacing-6);
+  background: linear-gradient(135deg, var(--brand-accent), #c41e3a);
+  border-radius: var(--radius-3xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-lg);
+  border: 4px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.brand-logo::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transform: rotate(45deg);
+  animation: shimmer 3s ease-in-out infinite;
+}
+
+.brand-logo::after {
+  content: '🍽️';
+  font-size: 48px;
+  z-index: 1;
+  position: relative;
+}
+
+@keyframes shimmer {
+  0%, 100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+  50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+}
+
+/* Cards de opção elegantes */
+.option-card {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  border-radius: var(--radius-3xl);
+  padding: var(--spacing-10);
+  text-decoration: none;
+  color: inherit;
+  transition: all var(--transition-normal);
+  position: relative;
+  overflow: hidden;
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.option-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 6px;
+  background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+  transform: scaleX(0);
+  transition: transform var(--transition-normal);
+}
+
+.option-card:hover {
+  border-color: var(--brand-primary);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-xl);
+}
+
+.option-card:hover::before {
+  transform: scaleX(1);
+}
+
+.option-icon {
+  font-size: 4rem;
+  margin-bottom: var(--spacing-6);
+  display: block;
+}
+
+.option-title {
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--brand-primary);
+  margin-bottom: var(--spacing-4);
+}
+
+.option-description {
+  font-size: var(--font-size-lg);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-relaxed);
+  max-width: 300px;
+}
+
+/* PWA Install prompt elegante */
+.pwa-install {
+  background: linear-gradient(135deg, var(--brand-success), #10b981);
+  color: var(--neutral-white);
+  padding: var(--spacing-5) var(--spacing-6);
+  border-radius: var(--radius-2xl);
+  display: none;
+  align-items: center;
+  gap: var(--spacing-4);
+  margin-bottom: var(--spacing-6);
+  box-shadow: var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.pwa-install::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.pwa-install:hover::before {
+  left: 100%;
+}
+
+.pwa-install-icon {
+  font-size: var(--font-size-2xl);
+}
+
+.pwa-install-text {
+  flex: 1;
+  font-weight: var(--font-weight-medium);
+}
+
+.pwa-install-btn {
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: var(--neutral-white);
+  padding: var(--spacing-3) var(--spacing-5);
+  border-radius: var(--radius-xl);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.pwa-install-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
+}
+
+.pwa-install-close {
+  background: none;
+  border: none;
+  color: var(--neutral-white);
+  font-size: var(--font-size-xl);
+  cursor: pointer;
+  padding: var(--spacing-2);
+  opacity: 0.8;
+  transition: opacity var(--transition-fast);
+}
+
+.pwa-install-close:hover {
+  opacity: 1;
+}
+
+/* Responsividade aprimorada */
+@media (max-width: 768px) {
+  .app-header {
+    padding: var(--spacing-12) 0;
+  }
+  
+  .brand-logo {
+    width: 80px;
+    height: 80px;
+    margin-bottom: var(--spacing-4);
+  }
+  
+  .brand-logo::after {
+    font-size: 32px;
+  }
+  
+  .option-card {
+    padding: var(--spacing-8);
+    min-height: 220px;
+  }
+  
+  .option-icon {
+    font-size: 3rem;
+    margin-bottom: var(--spacing-4);
+  }
+  
+  .option-title {
+    font-size: var(--font-size-2xl);
+  }
+  
+  .option-description {
+    font-size: var(--font-size-base);
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 0 var(--spacing-3);
+  }
+  
+  .option-card {
+    padding: var(--spacing-6);
+    min-height: 180px;
+  }
+  
+  .option-icon {
+    font-size: 2.5rem;
+  }
+  
+  .option-title {
+    font-size: var(--font-size-xl);
+  }
+}

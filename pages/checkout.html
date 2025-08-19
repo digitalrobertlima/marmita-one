@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Finalizar Pedido - Restaurante da Célia</title>
+  <meta name="theme-color" content="#0a7d4f">
+  <link rel="manifest" href="manifest.json">
+  
+  <style>
+    :root{
+      --bg:#fbfbfb; --card:#fff; --text:#151515; --muted:#666; --stroke:#e8e8e8;
+      --brand:#0a7d4f; --accent:#e63946; --focus:#1c6ef2; --promo:#ffb703;
+      --radius:14px; --shadow:0 8px 24px rgba(0,0,0,.06); --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:18px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial;padding-top:80px}
+    
+    .navbar{position:fixed;top:0;left:0;right:0;background:#fff;border-bottom:1px solid var(--stroke);z-index:100;padding:16px 20px}
+    .navbar-content{max-width:1000px;margin:0 auto;display:flex;align-items:center;gap:16px}
+    .back-btn{background:none;border:none;font-size:28px;cursor:pointer;padding:8px}
+    .navbar h1{margin:0;font-size:22px;font-weight:600}
+    
+    .wrap{max-width:1000px;margin:0 auto;padding:24px clamp(20px,4vw,40px)}
+
+    .btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;padding:12px 20px;border-radius:12px;border:1px solid var(--stroke);cursor:pointer;font-weight:700;background:#fff;text-decoration:none}
+    .btn-primary{background:var(--brand);color:#fff;border:0}
+    .btn:hover{transform:translateY(-1px)}
+
+    .card{background:var(--card);border:1px solid var(--stroke);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(20px,3vw,32px);margin-bottom:20px}
+    .card h2{margin:0 0 20px;font-size:24px;display:flex;align-items:center;gap:10px}
+
+    fieldset{border:0;margin:0;padding:0}
+    label{display:block;font-weight:600;margin-bottom:6px}
+    input[type="text"],input[type="tel"],input[type="time"],input[type="number"],textarea,select{
+      width:100%;padding:12px;border-radius:12px;border:1px solid var(--stroke);background:#fff;font-size:15px
+    }
+    input:focus,select:focus,textarea:focus{outline:3px solid color-mix(in oklab,var(--focus) 65%,transparent);outline-offset:2px}
+
+    .row{display:grid;grid-template-columns:1fr;gap:12px}
+    @media(min-width:560px){ .row{grid-template-columns:1fr 1fr} }
+
+    .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
+
+    .cart-summary{background:#f8fffe;border:1px solid #d1fae5;border-radius:12px;padding:16px}
+    .cart-item{padding:12px 0;border-bottom:1px dashed var(--stroke)}
+    .cart-item:last-child{border-bottom:none}
+    .cart-item h3{margin:0 0 4px;font-size:16px}
+    .cart-mini{color:var(--muted);font-size:14px;line-height:1.4}
+    .cart-total{font-size:18px;font-weight:700;color:var(--brand);text-align:right;margin-top:12px}
+
+    .preview{width:100%;min-height:140px;white-space:pre-wrap;border:1px dashed var(--stroke);border-radius:12px;padding:12px;background:#fff;font-family:var(--mono);font-size:13px;line-height:1.4}
+
+    .notice{margin-top:12px;padding:12px;border:1px dashed #ffd48a;background:#fff8e1;border-radius:12px;color:#634300}
+
+    footer{color:var(--muted);font-size:12px;text-align:center;margin:24px 0 8px}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <button class="back-btn" onclick="history.back()" aria-label="Voltar">←</button>
+      <h1>🧾 Finalizar pedido</h1>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <!-- Resumo do carrinho -->
+    <section class="card">
+      <h2>📋 Resumo do pedido</h2>
+      <div class="cart-summary" id="cart-summary">
+        <div id="cart-items"></div>
+        <div class="cart-total" id="cart-total">Total: R$ 0,00</div>
+      </div>
+    </section>
+
+    <!-- Dados de entrega -->
+    <section class="card">
+      <h2>📍 Dados para entrega</h2>
+      <div class="row">
+        <div>
+          <label for="nome">🙍 Nome</label>
+          <input id="nome" type="text" placeholder="Seu nome" required>
+        </div>
+        <div>
+          <label for="telefone">📱 Telefone</label>
+          <input id="telefone" type="tel" placeholder="(00) 00000-0000">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label for="endereco">📍 Endereço</label>
+          <input id="endereco" type="text" placeholder="Rua, número, complemento" required>
+        </div>
+        <div>
+          <label for="bairro">🏘️ Bairro</label>
+          <input id="bairro" type="text" placeholder="Ex.: Centro">
+        </div>
+      </div>
+      <div>
+        <label for="referencia">📌 Ponto de referência</label>
+        <input id="referencia" type="text" placeholder="Ex.: Próximo à padaria Y">
+      </div>
+    </section>
+
+    <!-- Dados do pedido -->
+    <section class="card">
+      <h2>⏰ Horário e pagamento</h2>
+      <div class="row">
+        <div>
+          <label for="hora">⏰ Horário desejado</label>
+          <input id="hora" type="time">
+        </div>
+        <div>
+          <label for="pagamento">💳 Forma de pagamento</label>
+          <select id="pagamento" required>
+            <option value="">Selecione…</option>
+            <option>PIX</option>
+            <option>Dinheiro</option>
+            <option>Cartão de débito</option>
+            <option>Cartão de crédito</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="troco-wrap" style="display:none;margin-top:12px">
+        <label for="troco">💵 Troco para (R$)</label>
+        <input id="troco" type="number" step="1" inputmode="numeric" placeholder="Ex.: 100">
+        <p style="margin:4px 0 0;color:var(--muted);font-size:13px">O sistema calcula o troco automaticamente.</p>
+      </div>
+
+      <div class="notice">
+        <strong>Atenção 🚚:</strong> no momento da finalização no WhatsApp, será calculada a <u>taxa de entrega</u> conforme sua região.
+      </div>
+    </section>
+
+    <!-- Prévia da mensagem -->
+    <section class="card">
+      <h2>📄 Prévia da mensagem</h2>
+      <div id="preview" class="preview"></div>
+      <div class="actions">
+        <button class="btn" id="btn-copy">📋 Copiar mensagem</button>
+        <button class="btn btn-primary" id="btn-wa">💬 Enviar pelo WhatsApp</button>
+      </div>
+    </section>
+
+    <footer>
+      <small>MARMITA.ONE • v1.0 • <a href="index.html" style="color:inherit">← Voltar ao início</a></small>
+    </footer>
+  </div>
+
+  <script src="shared.js"></script>
+  <script>
+    // Funções específicas do checkout
+    function renderCartSummary(){
+      const itemsEl = byId("cart-items");
+      const totalEl = byId("cart-total");
+      
+      if (CART.length === 0) {
+        itemsEl.innerHTML = '<p style="text-align:center;color:var(--muted);margin:0">Carrinho vazio</p>';
+        totalEl.textContent = "Total: R$ 0,00";
+        return;
+      }
+      
+      itemsEl.innerHTML = "";
+      CART.forEach((entry, idx) => {
+        const el = document.createElement("div");
+        el.className = "cart-item";
+        el.innerHTML = `
+          <h3>Marmita #${idx + 1}</h3>
+          <div class="cart-mini">${entry.mini}</div>
+          <div style="margin-top:4px;font-weight:600">${fmt(entry.total)}</div>
+        `;
+        itemsEl.appendChild(el);
+      });
+      
+      totalEl.textContent = `Total: ${fmt(cartTotal())}`;
+    }
+
+    function coletarCheckout(){
+      const nome = byId("nome").value.trim();
+      const telefone = byId("telefone").value.trim();
+      const endereco = byId("endereco").value.trim();
+      const bairro = byId("bairro").value.trim();
+      const referencia = byId("referencia").value.trim();
+      const hora = byId("hora").value;
+      const pagamento = byId("pagamento").value;
+      const trocoPara = byId("troco").value;
+      
+      let troco = null;
+      if(pagamento === "Dinheiro" && trocoPara){
+        const x = Number(String(trocoPara).replace(",","."));
+        if(!isNaN(x)) troco = Math.max(0, x - cartTotal());
+      }
+      
+      return { nome, telefone, endereco, bairro, referencia, hora, pagamento, trocoPara, troco };
+    }
+
+    function validarCheckout(d){
+      const msgs = [];
+      if(!CART.length) msgs.push("Adicione pelo menos 1 item ao carrinho.");
+      if(!d.nome) msgs.push("Informe seu nome.");
+      if(!d.endereco) msgs.push("Informe o endereço para entrega.");
+      if(!d.pagamento) msgs.push("Escolha a forma de pagamento.");
+      return { ok: msgs.length===0, msgs };
+    }
+
+    function montarMensagem(){
+      const d = coletarCheckout();
+      const v = validarCheckout(d);
+      if(!v.ok) return "";
+
+      const linhas = [];
+      linhas.push("🍱 *Pedido de Marmitas*");
+      linhas.push(`• Restaurante da Célia`);
+      linhas.push("");
+
+      CART.forEach((e,idx)=>{
+        const it = e.item;
+        linhas.push(`Marmita #${idx+1}`);
+        if(it.tamanho) linhas.push(`• Tamanho: ${it.tamanho}`);
+        if(it.proteina) linhas.push(`• Proteína: ${it.proteina}`);
+        if(it.acompanhamentos?.length) linhas.push(`• Acompanhamentos: ${it.acompanhamentos.join(', ')}`);
+        if(it.adicionais2?.length) linhas.push(`• Adicionais (+${fmt(CONFIG.regras.precoAdicional)}): ${it.adicionais2.join(', ')}`);
+        if(it.carnes8?.length) linhas.push(`• Carnes extras (+${fmt(CONFIG.regras.precoCarneExtra)}): ${it.carnes8.join(', ')}`);
+        if(it.bebidas?.length) linhas.push(`• Bebidas: ${it.bebidas.map(b=>`${b.nome}${b.preco?` (${fmt(b.preco)})`:''}`).join(', ')}`);
+        if(it.obs) linhas.push(`• Obs.: ${it.obs}`);
+        linhas.push(`Valor: ${fmt(e.total)}`);
+        linhas.push("");
+      });
+
+      linhas.push(`Total dos itens: *${fmt(cartTotal())}*`);
+      linhas.push("Taxa de entrega será calculada conforme a região.");
+      linhas.push("");
+
+      linhas.push(`📍 *Entrega:*`);
+      if(d.nome) linhas.push(`• Nome: ${d.nome}`);
+      if(d.telefone) linhas.push(`• Telefone: ${d.telefone}`);
+      const enderecoFull = [d.endereco, d.bairro?`– ${d.bairro}`:"", d.referencia?`(Ref.: ${d.referencia})`:""].join(" ").replace(/\s+/g," ").trim();
+      if(enderecoFull) linhas.push(`• Endereço: ${enderecoFull}`);
+      if(d.hora) linhas.push(`• Horário: ${d.hora}`);
+      if(d.pagamento) linhas.push(`• Pagamento: ${d.pagamento}`);
+      
+      if(d.pagamento === "PIX") {
+        linhas.push(`• Observação: Produção inicia após envio do comprovante PIX.`);
+      }
+      
+      if(d.pagamento === "Dinheiro" && d.troco !== null){
+        linhas.push(`• Troco para: ${fmt(Number(d.trocoPara))}`);
+        linhas.push(`• Enviar troco: ${fmt(d.troco)}`);
+      }
+
+      linhas.push("");
+      linhas.push(`Pedidos até 14:30`);
+      linhas.push("Obrigada! 🙌");
+
+      return linhas.join("\n").replace(/\n{3,}/g,"\n\n").trim();
+    }
+
+    function renderPreview(){ 
+      const msg = montarMensagem();
+      byId("preview").textContent = msg || "Preencha os dados acima para ver a prévia da mensagem"; 
+    }
+
+    function onPagamento(){ 
+      const isDinheiro = byId("pagamento").value === "Dinheiro";
+      byId("troco-wrap").style.display = isDinheiro ? "block" : "none"; 
+      renderPreview(); 
+    }
+
+    async function copiarMensagem(){
+      const msg = montarMensagem(); 
+      if(!msg){ 
+        alert("Preencha todos os campos obrigatórios."); 
+        return; 
+      }
+      
+      try{ 
+        await navigator.clipboard.writeText(msg); 
+        alert("Mensagem copiada!"); 
+      } catch {
+        const ta=document.createElement("textarea"); 
+        ta.value=msg; 
+        document.body.appendChild(ta); 
+        ta.select(); 
+        document.execCommand("copy"); 
+        document.body.removeChild(ta);
+        alert("Mensagem copiada!");
+      }
+    }
+
+    function abrirWhatsApp(){
+      const msg = montarMensagem(); 
+      if(!msg){ 
+        alert("Preencha todos os campos obrigatórios."); 
+        return; 
+      }
+      
+      const phone = "5531992034948"; // Número do WhatsApp
+      const url = `https://wa.me/${phone}?text=${encodeURIComponent(msg)}`;
+      window.open(url, "_blank");
+    }
+
+    // Inicializar página
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCart();
+      renderCartSummary();
+      
+      if (CART.length === 0) {
+        alert("Seu carrinho está vazio! Adicione itens antes de finalizar o pedido.");
+        window.location.href = "index.html";
+        return;
+      }
+      
+      // Event listeners
+      document.getElementById("pagamento").addEventListener("change", onPagamento);
+      document.getElementById("btn-copy").addEventListener("click", copiarMensagem);
+      document.getElementById("btn-wa").addEventListener("click", abrirWhatsApp);
+      
+      // Atualizar prévia quando campos mudarem
+      document.addEventListener("input", renderPreview);
+      document.addEventListener("change", renderPreview);
+      
+      renderPreview();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Opções Prontas - Restaurante da Célia</title>
+  <meta name="theme-color" content="#0a7d4f">
+  <link rel="manifest" href="manifest.json">
+  
+  <style>
+    :root{
+      --bg:#fbfbfb; --card:#fff; --text:#151515; --muted:#666; --stroke:#e8e8e8;
+      --brand:#0a7d4f; --accent:#e63946; --focus:#1c6ef2; --promo:#ffb703;
+      --radius:14px; --shadow:0 8px 24px rgba(0,0,0,.06);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:18px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial;padding-top:80px}
+    
+    .navbar{position:fixed;top:0;left:0;right:0;background:#fff;border-bottom:1px solid var(--stroke);z-index:100;padding:16px 20px}
+    .navbar-content{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:16px}
+    .back-btn{background:none;border:none;font-size:28px;cursor:pointer;padding:8px}
+    .navbar h1{margin:0;font-size:22px;font-weight:600}
+    
+    .wrap{max-width:1200px;margin:0 auto;padding:24px clamp(20px,4vw,40px)}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#f6f6f6;border:1px solid var(--stroke);font-size:14px}
+
+    .btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;padding:10px 12px;border-radius:12px;border:1px solid var(--stroke);cursor:pointer;font-weight:700;background:#fff}
+    .btn-primary{background:var(--brand);color:#fff;border:0}
+    .btn-ghost{border:1px dashed var(--stroke);color:#666}
+    .btn-promo{background:var(--promo);color:#402d00;border:0}
+
+    .grid{display:grid;gap:12px}
+    @media(min-width:980px){ .grid{grid-template-columns: 2fr 1fr} }
+
+    .card{background:var(--card);border:1px solid var(--stroke);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(20px,3vw,28px)}
+    .card h2{margin:0 0 16px;font-size:22px;display:flex;align-items:center;gap:10px}
+    .hint{color:var(--muted);font-size:13px}
+
+    fieldset{border:0;margin:0;padding:0}
+    label{display:block;font-weight:600;margin-bottom:6px}
+    input[type="text"],input[type="tel"],input[type="time"],input[type="number"],textarea,select{
+      width:100%;padding:12px;border-radius:12px;border:1px solid var(--stroke);background:#fff;font-size:15px
+    }
+
+    .row{display:grid;grid-template-columns:1fr;gap:10px}
+    @media(min-width:760px){ .row{grid-template-columns:1fr 1fr} }
+
+    .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+
+    .cart{position:sticky;top:70px}
+    .cart-list{display:grid;gap:8px;margin-top:8px}
+    .cart-item{border:1px solid var(--stroke);border-radius:12px;padding:10px;background:#fff}
+    .cart-item h3{margin:0 0 6px;font-size:15px}
+    .cart-mini{color:#333;font-size:13px;white-space:pre-wrap}
+
+    .total{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px dashed var(--stroke)}
+
+    footer{color:var(--muted);font-size:12px;text-align:center;margin:18px 0 8px}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <button class="back-btn" onclick="history.back()" aria-label="Voltar">←</button>
+      <h1>⚡ Opções prontas</h1>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <header style="text-align:center;margin:6px 0 12px">
+      <p style="margin:0;color:var(--muted)">Preenchimento rápido com combinações predefinidas</p>
+      <div class="pill">⏰ Pedidos até <strong>14:30</strong></div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <h2>⚡ Opções prontas — preenchimento rápido</h2>
+        <p class="hint">Toque em uma opção pronta ou preencha manualmente. Campos em branco são opcionais.</p>
+
+        <div class="row" id="ios-presets">
+          <div class="card" style="border-style:dashed">
+            <h3 style="margin:0 0 8px">⭐ Opção 1</h3>
+            <div class="hint" id="ios-op1-desc">G · Lombo assado ao molho madeira · Arroz, Feijão, Farofa, Maionese, Salada verde</div>
+            <div class="actions"><button class="btn btn-primary" id="btn-op1">Usar Opção 1</button></div>
+          </div>
+          <div class="card" style="border-style:dashed">
+            <h3 style="margin:0 0 8px">⭐ Opção 2</h3>
+            <div class="hint" id="ios-op2-desc">G · Strogonoff de frango · Arroz, Batata palha, Salada verde</div>
+            <div class="actions"><button class="btn btn-primary" id="btn-op2">Usar Opção 2</button></div>
+          </div>
+        </div>
+
+        <p class="hint" style="margin-top:16px">Ou personalize digitando abaixo (separe por vírgulas):</p>
+        <div class="row">
+          <div>
+            <label for="ios-tamanho">📦 Tamanho (P ou G)</label>
+            <input id="ios-tamanho" type="text" inputmode="text" placeholder="P ou G">
+          </div>
+          <div>
+            <label for="ios-proteina">🥩 Proteína</label>
+            <input id="ios-proteina" type="text" inputmode="text" placeholder="Ex.: Lombo, Carne cozida, Strogonoff">
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="ios-acc">🥗 Acompanhamentos & Saladas</label>
+            <input id="ios-acc" type="text" inputmode="text" placeholder="Ex.: Arroz, Feijão, Salada verde">
+          </div>
+          <div>
+            <label for="ios-add2">➕ Adicionais (+R$2 cada)</label>
+            <input id="ios-add2" type="text" inputmode="text" placeholder="Ex.: Arroz separado, Molho extra">
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <label for="ios-add8">🍖 Carnes extras (+R$8 cada)</label>
+            <input id="ios-add8" type="text" inputmode="text" placeholder="Ex.: Porção extra de strogonoff">
+          </div>
+          <div>
+            <label for="ios-bebidas">🥤 Bebidas</label>
+            <input id="ios-bebidas" type="text" inputmode="text" placeholder="Ex.: Coca 2L, Sprite lata">
+          </div>
+        </div>
+        <div>
+          <label for="ios-obs">📝 Observações do item</label>
+          <input id="ios-obs" type="text" inputmode="text" placeholder="Ex.: Pouco sal, sem pimenta">
+        </div>
+        <div class="actions">
+          <button class="btn btn-primary" id="btn-add-ios">🛒 Adicionar ao carrinho</button>
+          <button class="btn btn-ghost" id="btn-reset-ios">🧹 Limpar campos</button>
+        </div>
+      </section>
+
+      <aside class="card cart" id="cart">
+        <h2>🧺 Seu carrinho</h2>
+        <div class="cart-list" id="cart-list"></div>
+        <div class="total">
+          <strong>Total</strong>
+          <div id="cart-total">R$ 0,00</div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-danger" id="btn-clear-cart">🗑️ Esvaziar carrinho</button>
+          <a href="checkout.html" class="btn btn-primary" style="text-decoration:none">🧾 Finalizar pedido</a>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <small>MARMITA.ONE • v1.0 • <a href="index.html" style="color:inherit">← Voltar ao início</a></small>
+    </footer>
+  </div>
+
+  <script src="shared.js"></script>
+  <script>
+    // Funções específicas para presets
+    function matchFromListTerm(list, term){
+      const t = norm(term);
+      if(!t) return null;
+      for(const item of list){
+        const name = typeof item === "string" ? item : item.nome;
+        const aliases = (typeof item === "string") ? [] : (item.aliases||[]);
+        const candidates = [name, ...aliases].map(norm);
+        if(candidates.some(c => c === t || c.includes(t) || t.includes(c))){
+          return item;
+        }
+      }
+      for(const item of list){
+        const name = typeof item === "string" ? item : item.nome;
+        if(norm(name).includes(t)) return item;
+      }
+      return null;
+    }
+
+    function getItemAtualIOS(){
+      const tTam = byId("ios-tamanho").value;
+      const tProt= byId("ios-proteina").value;
+      const tAcc = byId("ios-acc").value;
+      const tAdd2= byId("ios-add2").value;
+      const tAdd8= byId("ios-add8").value;
+      const tBeb = byId("ios-bebidas").value;
+      const obs  = byId("ios-obs").value.trim();
+
+      let tamanhoNome = "";
+      let precoTamanho = 0;
+      if(tTam){
+        const term = norm(tTam);
+        let found = null;
+        if(term === "p") found = CONFIG.tamanhos.find(x=>x.id==="S");
+        if(term === "g") found = CONFIG.tamanhos.find(x=>x.id==="L");
+        if(!found) found = matchFromListTerm(CONFIG.tamanhos, term);
+        if(found){ tamanhoNome = found.nome; precoTamanho = Number(found.valor||0); }
+      }
+
+      let proteinaNome = "";
+      if(tProt){
+        const m = matchFromListTerm(CONFIG.proteinas, tProt);
+        proteinaNome = m? (m.nome || m) : tProt.trim();
+      }
+
+      const acc = splitList(tAcc).map(term=>{
+        const m = matchFromListTerm(CONFIG.acompanhamentos, term);
+        return m? (m.nome || m) : term;
+      });
+
+      const add2 = splitList(tAdd2).map(term=>{
+        const m = matchFromListTerm(CONFIG.adicionais2, term);
+        return m? (m.nome || m) : term;
+      });
+
+      const add8 = splitList(tAdd8).map(term=>{
+        const m = matchFromListTerm(CONFIG.carnesExtras8, term);
+        return m? (m.nome || m) : term;
+      });
+
+      const bebidas = splitList(tBeb).map(term=>{
+        const m = matchFromListTerm(CONFIG.bebidas, term);
+        if(m && m.nome){ return {nome:m.nome, preco:Number(m.valor||0)} }
+        return {nome:term, preco:0};
+      });
+
+      const totalAdd2 = add2.length * CONFIG.regras.precoAdicional;
+      const totalAdd8 = add8.length * CONFIG.regras.precoCarneExtra;
+      const totalBebidas = bebidas.reduce((s,b)=> s + (b.preco||0), 0);
+      const total = precoTamanho + totalAdd2 + totalAdd8 + totalBebidas;
+
+      return { 
+        tamanho:tamanhoNome, 
+        proteina:proteinaNome, 
+        acompanhamentos:acc, 
+        adicionais2:add2, 
+        carnes8:add8, 
+        bebidas, 
+        obs,
+        totais:{precoTamanho, totalAdd2, totalAdd8, totalBebidas, total} 
+      };
+    }
+
+    function addItemToCartIOS(){
+      const item = getItemAtualIOS();
+      const v = validarItem(item);
+      if(!v.ok){ 
+        alert(v.msgs.join(" "));
+        return; 
+      }
+      const id = Date.now() + Math.floor(Math.random()*1000);
+      CART.push({ id, item, total:item.totais.total, mini: miniItem(item) });
+      saveCart(); 
+      renderCart(); 
+      clearBuilderIOS(); 
+      alert("Marmita adicionada ao carrinho!");
+    }
+
+    function clearBuilderIOS(){
+      ["ios-tamanho","ios-proteina","ios-acc","ios-add2","ios-add8","ios-bebidas","ios-obs"].forEach(id=>byId(id).value="");
+    }
+
+    function applyPreset(which){
+      const p = CONFIG.presetsIOS[which]; 
+      if(!p) return;
+      byId("ios-tamanho").value = p.tamanho || "";
+      byId("ios-proteina").value = p.proteina || "";
+      byId("ios-acc").value = p.acc || "";
+      byId("ios-add2").value = p.add2 || "";
+      byId("ios-add8").value = p.add8 || "";
+      byId("ios-bebidas").value = p.bebidas || "";
+      byId("ios-obs").value = p.obs || "";
+    }
+
+    // Inicializar a página
+    document.addEventListener('DOMContentLoaded', () => {
+      loadCart();
+      renderCart();
+      
+      // Event listeners
+      document.getElementById("btn-add-ios").addEventListener("click", addItemToCartIOS);
+      document.getElementById("btn-reset-ios").addEventListener("click", clearBuilderIOS);
+      document.getElementById("btn-clear-cart").addEventListener("click", clearCart);
+      document.getElementById("btn-op1").addEventListener("click", ()=>applyPreset('opcao1'));
+      document.getElementById("btn-op2").addEventListener("click", ()=>applyPreset('opcao2'));
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Montar Meu Prato - Restaurante da Célia</title>
+  <meta name="theme-color" content="#0a7d4f">
+  <link rel="manifest" href="manifest.json">
+  
+  <style>
+    :root{
+      --bg:#fbfbfb; --card:#fff; --text:#151515; --muted:#666; --stroke:#e8e8e8;
+      --brand:#0a7d4f; --accent:#e63946; --focus:#1c6ef2; --promo:#ffb703;
+      --radius:14px; --shadow:0 8px 24px rgba(0,0,0,.06); --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:18px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial;padding-top:80px}
+    
+    .navbar{position:fixed;top:0;left:0;right:0;background:#fff;border-bottom:1px solid var(--stroke);z-index:100;padding:16px 20px}
+    .navbar-content{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:16px}
+    .back-btn{background:none;border:none;font-size:28px;cursor:pointer;padding:8px}
+    .navbar h1{margin:0;font-size:22px;font-weight:600}
+    
+    .wrap{max-width:1200px;margin:0 auto;padding:24px clamp(20px,4vw,40px)}
+    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#f6f6f6;border:1px solid var(--stroke);font-size:14px}
+
+    .btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;padding:10px 12px;border-radius:12px;border:1px solid var(--stroke);cursor:pointer;font-weight:700;background:#fff}
+    .btn-primary{background:var(--brand);color:#fff;border:0}
+    .btn-ghost{border:1px dashed var(--stroke);color:#666}
+    .btn-danger{background:#fff;color:var(--accent);border-color:#ffd5d8}
+
+    .grid{display:grid;gap:12px}
+    @media(min-width:980px){ .grid{grid-template-columns: 2fr 1fr} }
+
+    .card{background:var(--card);border:1px solid var(--stroke);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(20px,3vw,28px)}
+    .card h2{margin:0 0 16px;font-size:22px;display:flex;align-items:center;gap:10px}
+    .hint{color:var(--muted);font-size:13px}
+
+    fieldset{border:0;margin:0;padding:0}
+    label{display:block;font-weight:600;margin-bottom:6px}
+    input[type="text"],input[type="tel"],input[type="time"],input[type="number"],textarea,select{
+      width:100%;padding:12px;border-radius:12px;border:1px solid var(--stroke);background:#fff;font-size:15px
+    }
+    textarea{min-height:84px;resize:vertical}
+    input:focus,select:focus,textarea:focus,button:focus{outline:3px solid color-mix(in oklab,var(--focus) 65%,transparent);outline-offset:2px}
+
+    .list{display:grid;gap:8px}
+    .item{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;border:1px solid var(--stroke);border-radius:12px;padding:10px 12px;background:#fff}
+    .price{color:var(--brand);font-weight:700}
+
+    .chips{display:flex;flex-wrap:wrap;gap:8px}
+    .chip{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--stroke);border-radius:999px;background:#fff;user-select:none}
+    .chip input{accent-color:var(--brand)}
+    .chip:has(input:checked){border-color:var(--brand)}
+
+    .row{display:grid;grid-template-columns:1fr;gap:10px}
+    @media(min-width:760px){ .row{grid-template-columns:1fr 1fr} }
+
+    .actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+
+    .cart{position:sticky;top:70px}
+    .cart-list{display:grid;gap:8px;margin-top:8px}
+    .cart-item{border:1px solid var(--stroke);border-radius:12px;padding:10px;background:#fff}
+    .cart-item h3{margin:0 0 6px;font-size:15px}
+    .cart-mini{color:#333;font-size:13px;white-space:pre-wrap}
+
+    .total{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px dashed var(--stroke)}
+
+    .preview{width:100%;min-height:140px;white-space:pre-wrap;border:1px dashed var(--stroke);border-radius:12px;padding:10px;background:#fff;font-family:var(--mono);font-size:13px}
+
+    .notice{margin-top:10px;padding:10px;border:1px dashed #ffd48a;background:#fff8e1;border-radius:12px;color:#634300}
+
+    footer{color:var(--muted);font-size:12px;text-align:center;margin:18px 0 8px}
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="navbar-content">
+      <button class="back-btn" onclick="history.back()" aria-label="Voltar">←</button>
+      <h1>🔧 Montar meu prato</h1>
+    </div>
+  </nav>
+
+  <div class="wrap">
+    <header style="text-align:center;margin:6px 0 12px">
+      <p style="margin:0;color:var(--muted)">Escolha cada ingrediente individualmente</p>
+      <div class="pill">⏰ Pedidos até <strong>14:30</strong></div>
+    </header>
+
+    <div class="grid">
+      <section class="card">
+        <section style="margin-bottom:10px">
+          <h3 style="margin:0 0 8px">📦 Tamanho</h3>
+          <fieldset class="list" id="sec-tamanho"></fieldset>
+        </section>
+        <section style="margin-bottom:10px">
+          <h3 style="margin:0 0 8px">🥩 Proteína</h3>
+          <div class="chips" id="sec-proteina"></div>
+        </section>
+        <section style="margin-bottom:10px">
+          <h3 style="margin:0 0 8px">🥗 Acompanhamentos & Saladas <small id="acc-hint" class="hint"></small></h3>
+          <div class="chips" id="sec-acc"></div>
+        </section>
+        <section class="row" style="margin-bottom:10px">
+          <div>
+            <h3 style="margin:0 0 8px">➕ Adicionais (R$ 2,00)</h3>
+            <div class="chips" id="sec-add2"></div>
+          </div>
+          <div>
+            <h3 style="margin:0 0 8px">🍖 Carnes extras (R$ 8,00)</h3>
+            <div class="chips" id="sec-add8"></div>
+          </div>
+        </section>
+        <section style="margin-bottom:10px">
+          <h3 style="margin:0 0 8px">🥤 Bebidas</h3>
+          <fieldset class="list" id="sec-bebidas"></fieldset>
+        </section>
+        <section style="margin-bottom:10px">
+          <h3 style="margin:0 0 8px">📝 Observações do item</h3>
+          <textarea id="obs-item" placeholder="Preferências para ESTA marmita"></textarea>
+        </section>
+        <div class="actions">
+          <button class="btn btn-primary" id="btn-add">🛒 Adicionar ao carrinho</button>
+          <button class="btn btn-ghost" id="btn-reset">🧹 Limpar seleção</button>
+        </div>
+      </section>
+
+      <aside class="card cart" id="cart">
+        <h2>🧺 Seu carrinho</h2>
+        <div class="cart-list" id="cart-list"></div>
+        <div class="total">
+          <strong>Total</strong>
+          <div id="cart-total">R$ 0,00</div>
+        </div>
+        <div class="actions">
+          <button class="btn btn-danger" id="btn-clear-cart">🗑️ Esvaziar carrinho</button>
+          <a href="checkout.html" class="btn btn-primary" style="text-decoration:none">🧾 Finalizar pedido</a>
+        </div>
+      </aside>
+    </div>
+
+    <footer>
+      <small>MARMITA.ONE • v1.0 • <a href="index.html" style="color:inherit">← Voltar ao início</a></small>
+    </footer>
+  </div>
+
+  <script src="shared.js"></script>
+  <script>
+    // Inicializar a página
+    document.addEventListener('DOMContentLoaded', () => {
+      CONFIG.identidade.nome = "Restaurante da Célia";
+      CONFIG.identidade.sub = "Monte sua marmita personalizada";
+      CONFIG.identidade.cutoff = "14:30";
+      
+      renderTamanhos();
+      renderProteinas(); 
+      renderAcompanhamentos();
+      renderAdicionais();
+      renderBebidas();
+      loadCart();
+      renderCart();
+      
+      // Event listeners
+      document.getElementById("btn-add").addEventListener("click", addItemToCart);
+      document.getElementById("btn-reset").addEventListener("click", clearBuilder);
+      document.getElementById("btn-clear-cart").addEventListener("click", clearCart);
+    });
+  </script>
+</body>
+</html>
