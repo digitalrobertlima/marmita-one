@@ -3,8 +3,8 @@
   "short_name": "Marmita.One",
   "description": "Plataforma digital para pedidos de marmitas. Cardápio interativo, personalização completa e entrega via WhatsApp.",
   "version": "0.1.0-beta",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#0a7d4f",
@@ -84,7 +84,7 @@
       "name": "Montar Meu Prato",
       "short_name": "Personalizar",
       "description": "Crie sua marmita personalizada",
-      "url": "/pages/custom.html",
+      "url": "pages/custom.html",
       "icons": [
         {
           "src": "assets/icons/icon-192x192.png",
@@ -96,7 +96,7 @@
       "name": "Opções Prontas", 
       "short_name": "Prontas",
       "description": "Escolha opções pré-definidas",
-      "url": "/pages/presets.html",
+      "url": "pages/presets.html",
       "icons": [
         {
           "src": "assets/icons/icon-192x192.png", 
@@ -108,7 +108,7 @@
       "name": "Meus Pedidos",
       "short_name": "Pedidos", 
       "description": "Acompanhe seus pedidos",
-      "url": "/pages/checkout.html",
+      "url": "pages/checkout.html",
       "icons": [
         {
           "src": "assets/icons/icon-192x192.png",

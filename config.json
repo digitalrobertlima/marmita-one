@@ -3,38 +3,18 @@
     "name": "Marmita.One",
     "version": "0.1.0-beta",
     "build": "2025.08.19",
-    "environment": "beta",
-    "repository": "marmita-one"
+    "environment": "beta"
   },
   "features": {
     "pwa": true,
     "offline": true,
-    "notifications": true,
-    "analytics": true,
     "whatsapp_integration": true,
     "custom_orders": true,
     "preset_orders": true
   },
-  "api": {
-    "base_url": "https://api.marmita.one",
-    "version": "v1",
-    "endpoints": {
-      "orders": "/orders",
-      "menu": "/menu",
-      "status": "/status"
-    }
-  },
   "branding": {
     "primary_color": "#0a7d4f",
     "secondary_color": "#0d9c63",
-    "accent_color": "#e10600",
-    "logo_url": "/assets/icons/icon-512x512.png"
-  },
-  "beta_features": {
-    "advanced_analytics": true,
-    "push_notifications": true,
-    "background_sync": true,
-    "voice_orders": false,
-    "ai_recommendations": false
+    "accent_color": "#e10600"
   }
 }

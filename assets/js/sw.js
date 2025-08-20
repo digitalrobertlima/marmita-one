@@ -9,25 +9,25 @@ const DYNAMIC_CACHE = 'dynamic-v0.1.0-beta';
 
 // Arquivos essenciais para cache
 const STATIC_ASSETS = [
-  '/',
-  '/index.html',
-  '/pages/custom.html',
-  '/pages/presets.html', 
-  '/pages/checkout.html',
-  '/assets/css/main.css',
-  '/assets/css/variables.css',
-  '/assets/css/reset.css',
-  '/assets/css/components.css',
-  '/assets/js/app.js',
-  '/assets/js/pwa.js',
-  '/manifest.json',
+  './',
+  './index.html',
+  './pages/custom.html',
+  './pages/presets.html', 
+  './pages/checkout.html',
+  './assets/css/main.css',
+  './assets/css/variables.css',
+  './assets/css/reset.css',
+  './assets/css/components.css',
+  './assets/js/app.js',
+  './assets/js/pwa.js',
+  './manifest.json',
   'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap'
 ];
 
 // URLs dinâmicas que podem ser cacheadas
 const DYNAMIC_URLS = [
-  '/pages/',
-  '/assets/'
+  './pages/',
+  './assets/'
 ];
 
 /**
@@ -114,7 +114,7 @@ self.addEventListener('fetch', (event) => {
         .catch(() => {
           // Fallback para HTML pages
           if (request.destination === 'document') {
-            return caches.match('/index.html');
+            return caches.match('./index.html');
           }
         })
     );
@@ -143,7 +143,7 @@ self.addEventListener('fetch', (event) => {
               
               // Fallback genérico
               if (request.destination === 'document') {
-                return caches.match('/index.html');
+                return caches.match('./index.html');
               }
             });
         })
@@ -226,7 +226,7 @@ self.addEventListener('notificationclick', (event) => {
   
   if (event.action === 'explore') {
     event.waitUntil(
-      self.clients.openWindow('/pages/checkout.html')
+      self.clients.openWindow('./pages/checkout.html')
     );
   }
 });

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Finalizar Pedido - Marmita.One</title>
   <meta name="theme-color" content="#0a7d4f">
-  <link rel="manifest" href="/manifest.json">
+  <link rel="manifest" href="../manifest.json">
   
   <style>
     :root{
@@ -145,11 +145,11 @@
     </section>
 
     <footer>
-      <small>MARMITA.ONE • v1.0 • <a href="index.html" style="color:inherit">← Voltar ao início</a></small>
+  <small>MARMITA.ONE • v1.0 • <a href="../index.html" style="color:inherit" id="btn-voltar-inicio">← Voltar ao início</a></small>
     </footer>
   </div>
 
-  <script src="shared.js"></script>
+  <script src="../assets/js/app.js"></script>
   <script>
     // Funções específicas do checkout
     function renderCartSummary(){
@@ -211,48 +211,48 @@
       if(!v.ok) return "";
 
       const linhas = [];
-      linhas.push("🍱 *Pedido de Marmitas*");
-      linhas.push(`• Restaurante da Célia`);
-      linhas.push("");
+      linhas.push("[Pedido de Marmitas]");
+      linhas.push("Restaurante da Célia");
+      linhas.push("📲\n");
 
       CART.forEach((e,idx)=>{
         const it = e.item;
         linhas.push(`Marmita #${idx+1}`);
-        if(it.tamanho) linhas.push(`• Tamanho: ${it.tamanho}`);
-        if(it.proteina) linhas.push(`• Proteína: ${it.proteina}`);
-        if(it.acompanhamentos?.length) linhas.push(`• Acompanhamentos: ${it.acompanhamentos.join(', ')}`);
-        if(it.adicionais2?.length) linhas.push(`• Adicionais (+${fmt(CONFIG.regras.precoAdicional)}): ${it.adicionais2.join(', ')}`);
-        if(it.carnes8?.length) linhas.push(`• Carnes extras (+${fmt(CONFIG.regras.precoCarneExtra)}): ${it.carnes8.join(', ')}`);
-        if(it.bebidas?.length) linhas.push(`• Bebidas: ${it.bebidas.map(b=>`${b.nome}${b.preco?` (${fmt(b.preco)})`:''}`).join(', ')}`);
-        if(it.obs) linhas.push(`• Obs.: ${it.obs}`);
-        linhas.push(`Valor: ${fmt(e.total)}`);
+        if(it.tamanho) linhas.push(`- Tamanho 📦: ${it.tamanho}`);
+        if(it.proteina) linhas.push(`- Proteina 🥩: ${it.proteina}`);
+        if(it.acompanhamentos?.length) linhas.push(`- Acompanhamentos 🥗: ${it.acompanhamentos.join(', ')}`);
+        if(it.adicionais2?.length) linhas.push(`- Adicionais (+${fmt(CONFIG.regras.precoAdicional)}): ${it.adicionais2.join(', ')}`);
+        if(it.carnes8?.length) linhas.push(`- Carnes extras (+${fmt(CONFIG.regras.precoCarneExtra)}): ${it.carnes8.join(', ')}`);
+        if(it.bebidas?.length) linhas.push(`- Bebidas 🥤: ${it.bebidas.map(b=>`${b.nome}${b.preco?` (${fmt(b.preco)})`:''}`).join(', ')}`);
+        if(it.obs) linhas.push(`- Obs.: ${it.obs}`);
+        linhas.push(`Valor 💵: ${fmt(e.total)}`);
         linhas.push("");
       });
 
-      linhas.push(`Total dos itens: *${fmt(cartTotal())}*`);
-      linhas.push("Taxa de entrega será calculada conforme a região.");
+      linhas.push(`💰 Total dos itens: *${fmt(cartTotal())}*`);
+      linhas.push("Taxa de entrega será calculada conforme a região. 🏘️");
       linhas.push("");
 
-      linhas.push(`📍 *Entrega:*`);
-      if(d.nome) linhas.push(`• Nome: ${d.nome}`);
-      if(d.telefone) linhas.push(`• Telefone: ${d.telefone}`);
-      const enderecoFull = [d.endereco, d.bairro?`– ${d.bairro}`:"", d.referencia?`(Ref.: ${d.referencia})`:""].join(" ").replace(/\s+/g," ").trim();
-      if(enderecoFull) linhas.push(`• Endereço: ${enderecoFull}`);
-      if(d.hora) linhas.push(`• Horário: ${d.hora}`);
-      if(d.pagamento) linhas.push(`• Pagamento: ${d.pagamento}`);
-      
+      linhas.push("[Entrega]");
+      if(d.nome) linhas.push(`- Nome: ${d.nome}`);
+      if(d.telefone) linhas.push(`- Telefone: ${d.telefone}`);
+      const enderecoFull = [d.endereco, d.bairro?`- ${d.bairro}`:"", d.referencia?`(Ref.: ${d.referencia})`:""].join(" ").replace(/\s+/g," ").trim();
+      if(enderecoFull) linhas.push(`- 🏠 Endereço: ${enderecoFull}`);
+      if(d.hora) linhas.push(`- Horário: ${d.hora}`);
+      if(d.pagamento) linhas.push(`- Pagamento: ${d.pagamento}`);
+
       if(d.pagamento === "PIX") {
-        linhas.push(`• Observação: Produção inicia após envio do comprovante PIX.`);
+        linhas.push("- Observacao: Producao inicia apos envio do comprovante PIX.");
       }
-      
+
       if(d.pagamento === "Dinheiro" && d.troco !== null){
-        linhas.push(`• Troco para: ${fmt(Number(d.trocoPara))}`);
-        linhas.push(`• Enviar troco: ${fmt(d.troco)}`);
+        linhas.push(`- Troco para: ${fmt(Number(d.trocoPara))}`);
+        linhas.push(`- Enviar troco: ${fmt(d.troco)}`);
       }
 
       linhas.push("");
-      linhas.push(`Pedidos até 14:30`);
-      linhas.push("Obrigada! 🙌");
+      linhas.push("Pedidos até 14:30");
+      linhas.push("Obrigada!");
 
       return linhas.join("\n").replace(/\n{3,}/g,"\n\n").trim();
     }
