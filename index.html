@@ -265,6 +265,77 @@
           }
         }
       }
+
+      // Admin access button (hidden by default)
+      let adminClickCount = 0;
+      let adminTimeout;
+      
+      document.addEventListener('click', (e) => {
+        if (e.target.closest('.navbar-brand')) {
+          adminClickCount++;
+          
+          clearTimeout(adminTimeout);
+          adminTimeout = setTimeout(() => {
+            adminClickCount = 0;
+          }, 2000);
+          
+          if (adminClickCount >= 5) {
+            // Show admin access after 5 clicks on brand
+            showAdminAccess();
+            adminClickCount = 0;
+          }
+        }
+      });
+      
+      function showAdminAccess() {
+        const existingBtn = document.getElementById('adminBtn');
+        if (existingBtn) return;
+        
+        const adminBtn = document.createElement('button');
+        adminBtn.id = 'adminBtn';
+        adminBtn.innerHTML = '🔧';
+        adminBtn.title = 'Acesso Administrador';
+        adminBtn.style.cssText = `
+          position: fixed;
+          bottom: 20px;
+          right: 20px;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background: var(--brand-primary);
+          color: white;
+          border: none;
+          font-size: 20px;
+          cursor: pointer;
+          box-shadow: var(--shadow-lg);
+          z-index: var(--z-fixed);
+          transition: all var(--transition-normal);
+        `;
+        
+        adminBtn.addEventListener('mouseover', () => {
+          adminBtn.style.transform = 'scale(1.1)';
+        });
+        
+        adminBtn.addEventListener('mouseout', () => {
+          adminBtn.style.transform = 'scale(1)';
+        });
+        
+        adminBtn.addEventListener('click', () => {
+          window.location.href = 'pages/admin.html';
+        });
+        
+        document.body.appendChild(adminBtn);
+        
+        // Auto-hide after 10 seconds
+        setTimeout(() => {
+          adminBtn.style.opacity = '0';
+          setTimeout(() => {
+            if (adminBtn.parentNode) {
+              adminBtn.parentNode.removeChild(adminBtn);
+            }
+          }, 300);
+        }, 10000);
+      }
     });
     
     // Keyboard navigation
@@ -275,6 +346,7 @@
         document.getElementById('presets-option').click();
       }
     });
+  </script>
   </script>
 </body>
 </html>

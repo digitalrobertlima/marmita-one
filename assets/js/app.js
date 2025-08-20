@@ -73,7 +73,37 @@ const splitList = s => norm(s).split(/[,;/]+/).map(x=>x.trim()).filter(Boolean);
 
 // Storage
 const STORAGE_CART_KEY = "marmitaone_cart_v1";
+const MENU_OVERRIDE_KEY = "marmitaone_menu_override";
 let CART = [];
+
+// Função para aplicar override do admin
+function getAvailableItems() {
+  const override = getMenuOverride();
+  const config = JSON.parse(JSON.stringify(CONFIG)); // Deep clone
+  
+  if (override.proteins) {
+    config.proteinas = config.proteinas.filter(p => override.proteins[p.nome] !== false);
+  }
+  
+  if (override.accompaniments) {
+    config.acompanhamentos = config.acompanhamentos.filter(a => override.accompaniments[a] !== false);
+  }
+  
+  if (override.drinks) {
+    config.bebidas = config.bebidas.filter(b => override.drinks[b.nome] !== false);
+  }
+  
+  return config;
+}
+
+function getMenuOverride() {
+  try {
+    const stored = localStorage.getItem(MENU_OVERRIDE_KEY);
+    return stored ? JSON.parse(stored) : {};
+  } catch (e) {
+    return {};
+  }
+}
 
 // Funções de renderização
 function renderTamanhos(){
@@ -94,18 +124,21 @@ function renderProteinas(){
   const box = byId("sec-proteina");
   if (!box) return;
   box.innerHTML = "";
-  CONFIG.proteinas.forEach(p=>{
+  const availableConfig = getAvailableItems();
+  availableConfig.proteinas.forEach(p=>{
     const lbl = document.createElement("label"); lbl.className="chip";
     const inp = document.createElement("input"); inp.type="radio"; inp.name="proteina"; inp.value=p.nome;
     lbl.append(inp, document.createTextNode(p.nome)); box.append(lbl);
   });
+}
 }
 
 function renderAcompanhamentos(){
   const box = byId("sec-acc");
   if (!box) return;
   box.innerHTML = "";
-  CONFIG.acompanhamentos.forEach(n=>{
+  const availableConfig = getAvailableItems();
+  availableConfig.acompanhamentos.forEach(n=>{
     const lbl=document.createElement("label"); lbl.className="chip";
     const inp=document.createElement("input"); inp.type="checkbox"; inp.value=n;
     lbl.append(inp, document.createTextNode(n)); box.append(lbl);
@@ -142,7 +175,8 @@ function renderBebidas(){
   const box = byId("sec-bebidas");
   if (!box) return;
   box.innerHTML = "";
-  CONFIG.bebidas.forEach((b,idx)=>{
+  const availableConfig = getAvailableItems();
+  availableConfig.bebidas.forEach((b,idx)=>{
     const id = `beb-${idx}`;
     const row = document.createElement("div"); row.className="item";
     const lab = document.createElement("label"); lab.htmlFor=id; lab.textContent=b.nome;
@@ -275,4 +309,65 @@ function clearCart(){
   saveCart(); 
   renderCart();
   alert("Carrinho esvaziado!");
+}
+
+// Função para mostrar indicador de cardápio customizado
+function showMenuCustomizationIndicator() {
+  const override = getMenuOverride();
+  if (!override.lastUpdate) return;
+  
+  const indicator = document.createElement('div');
+  indicator.style.cssText = `
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+    color: white;
+    padding: var(--spacing-2) var(--spacing-4);
+    border-radius: var(--radius-full);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+    z-index: var(--z-fixed);
+    box-shadow: var(--shadow-md);
+    animation: slideDown 0.3s ease-out;
+  `;
+  
+  const updateDate = new Date(override.lastUpdate).toLocaleDateString('pt-BR');
+  indicator.innerHTML = `🍽️ Cardápio personalizado - ${updateDate}`;
+  
+  // Adicionar animação CSS
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes slideDown {
+      from { transform: translateX(-50%) translateY(-30px); opacity: 0; }
+      to { transform: translateX(-50%) translateY(0); opacity: 1; }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  document.body.appendChild(indicator);
+  
+  // Auto-remove após 5 segundos
+  setTimeout(() => {
+    indicator.style.animation = 'slideDown 0.3s ease-out reverse';
+    setTimeout(() => {
+      if (indicator.parentNode) {
+        indicator.parentNode.removeChild(indicator);
+      }
+    }, 300);
+  }, 5000);
+}
+
+// Inicialização automática quando a página carrega
+document.addEventListener('DOMContentLoaded', () => {
+  // Mostrar indicador se houver customização
+  showMenuCustomizationIndicator();
+});
+
+// Função global para inicializar as páginas
+function initializePage() {
+  loadCart();
+  renderCart();
+  showMenuCustomizationIndicator();
 }

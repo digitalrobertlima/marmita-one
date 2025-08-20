@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Marmita.One</title>
+  <link rel="stylesheet" href="../assets/css/reset.css">
+  <link rel="stylesheet" href="../assets/css/variables.css">
+  <link rel="stylesheet" href="../assets/css/components.css">
+  <link rel="stylesheet" href="../assets/css/main.css">
+  <style>
+    .admin-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: var(--spacing-6);
+    }
+    
+    .login-form, .admin-panel {
+      background: var(--color-surface);
+      border-radius: var(--radius-2xl);
+      padding: var(--spacing-8);
+      box-shadow: var(--shadow-lg);
+      margin-top: var(--spacing-8);
+    }
+    
+    .password-input {
+      width: 100%;
+      padding: var(--spacing-4);
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-xl);
+      font-size: var(--font-size-lg);
+      text-align: center;
+      letter-spacing: 0.5em;
+      margin: var(--spacing-4) 0;
+    }
+    
+    .password-input:focus {
+      outline: none;
+      border-color: var(--brand-primary);
+    }
+    
+    .menu-section {
+      margin-bottom: var(--spacing-8);
+      padding: var(--spacing-6);
+      background: var(--neutral-50);
+      border-radius: var(--radius-xl);
+    }
+    
+    .menu-item {
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-3);
+      padding: var(--spacing-3);
+      margin: var(--spacing-2) 0;
+      background: var(--color-surface);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--color-border);
+    }
+    
+    .menu-item input[type="checkbox"] {
+      transform: scale(1.2);
+    }
+    
+    .menu-item label {
+      flex: 1;
+      font-weight: var(--font-weight-medium);
+    }
+    
+    .save-status {
+      position: fixed;
+      top: var(--spacing-6);
+      right: var(--spacing-6);
+      padding: var(--spacing-3) var(--spacing-6);
+      background: var(--brand-success);
+      color: white;
+      border-radius: var(--radius-xl);
+      transform: translateY(-100px);
+      transition: transform var(--transition-normal);
+      z-index: var(--z-toast);
+    }
+    
+    .save-status.show {
+      transform: translateY(0);
+    }
+    
+    .hidden {
+      display: none;
+    }
+    
+    .admin-header {
+      text-align: center;
+      margin-bottom: var(--spacing-6);
+    }
+    
+    .admin-header h1 {
+      color: var(--brand-primary);
+      margin-bottom: var(--spacing-2);
+    }
+    
+    .admin-header p {
+      color: var(--color-text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="../index.html" class="navbar-back">←</a>
+      <span class="navbar-brand">🔐 Admin</span>
+    </div>
+  </nav>
+
+  <main style="padding-top: 80px;">
+    <div class="admin-container">
+      
+      <!-- Login Form -->
+      <div id="loginForm" class="login-form">
+        <div class="admin-header">
+          <h1>🍽️ Gestão do Cardápio</h1>
+          <p>Digite a senha de administração para continuar</p>
+        </div>
+        
+        <div class="input-group">
+          <label class="input-label">Senha de Acesso (6 dígitos)</label>
+          <input 
+            type="password" 
+            id="adminPassword" 
+            class="password-input" 
+            maxlength="6" 
+            placeholder="••••••"
+            autocomplete="off"
+          >
+          <div id="loginError" class="input-error hidden">Senha incorreta. Tente novamente.</div>
+        </div>
+        
+        <button id="loginBtn" class="btn btn-primary btn-full btn-lg">
+          🔑 Acessar Painel
+        </button>
+      </div>
+
+      <!-- Admin Panel -->
+      <div id="adminPanel" class="admin-panel hidden">
+        <div class="admin-header">
+          <h1>📋 Cardápio do Dia</h1>
+          <p>Selecione os itens disponíveis hoje</p>
+        </div>
+
+        <!-- Proteínas -->
+        <div class="menu-section">
+          <h3>🥩 Proteínas Disponíveis</h3>
+          <div id="proteinsList"></div>
+        </div>
+
+        <!-- Acompanhamentos -->
+        <div class="menu-section">
+          <h3>🥗 Acompanhamentos Disponíveis</h3>
+          <div id="accompanimentsList"></div>
+        </div>
+
+        <!-- Bebidas -->
+        <div class="menu-section">
+          <h3>🥤 Bebidas Disponíveis</h3>
+          <div id="drinksList"></div>
+        </div>
+
+        <!-- Ações -->
+        <div class="quick-actions" style="margin-bottom: var(--spacing-6);">
+          <h3>⚡ Ações Rápidas</h3>
+          <div class="flex gap-4 flex-wrap" style="margin-top: var(--spacing-4);">
+            <button id="enableAll" class="btn btn-primary btn-sm">
+              ✅ Marcar Todos
+            </button>
+            <button id="disableAll" class="btn btn-secondary btn-sm">
+              ❌ Desmarcar Todos
+            </button>
+            <button id="todaySpecial" class="btn btn-accent btn-sm">
+              ⭐ Prato do Dia
+            </button>
+          </div>
+        </div>
+
+        <!-- Ações -->
+        <div class="flex gap-4">
+          <button id="saveChanges" class="btn btn-primary btn-lg flex-1">
+            💾 Salvar Alterações
+          </button>
+          <button id="resetMenu" class="btn btn-secondary btn-lg">
+            🔄 Resetar
+          </button>
+          <button id="logoutBtn" class="btn btn-ghost btn-lg">
+            🚪 Sair
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Status de Salvamento -->
+  <div id="saveStatus" class="save-status">
+    ✅ Cardápio atualizado com sucesso!
+  </div>
+
+  <script src="../assets/js/app.js"></script>
+  <script>
+    // Configuração do Admin
+    const ADMIN_CONFIG = {
+      // Hash SHA-256 da senha "123456" (pode ser alterado)
+      // Para alterar a senha:
+      // 1. Acesse: https://emn178.github.io/online-tools/sha256.html
+      // 2. Digite a nova senha de 6 dígitos
+      // 3. Copie o hash gerado e substitua o valor abaixo
+      // 4. Exemplo: senha "654321" = hash "83b4f52bf0c43e5b8deabc4fc7d1b1f7f7eaa3ee5e4b0deabf3c564c8f8ac69c"
+      passwordHash: "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+      sessionKey: "marmitaone_admin_session",
+      menuOverrideKey: "marmitaone_menu_override"
+    };
+
+    // Função para hash SHA-256
+    async function hashPassword(password) {
+      const encoder = new TextEncoder();
+      const data = encoder.encode(password);
+      const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // Verificar sessão ativa
+    function checkSession() {
+      const session = localStorage.getItem(ADMIN_CONFIG.sessionKey);
+      const sessionData = session ? JSON.parse(session) : null;
+      
+      if (sessionData && sessionData.expires > Date.now()) {
+        showAdminPanel();
+        return true;
+      }
+      
+      localStorage.removeItem(ADMIN_CONFIG.sessionKey);
+      return false;
+    }
+
+    // Login
+    async function handleLogin() {
+      const password = document.getElementById('adminPassword').value;
+      const errorDiv = document.getElementById('loginError');
+      
+      if (password.length !== 6) {
+        showError("A senha deve ter exatamente 6 dígitos");
+        return;
+      }
+      
+      const hashedPassword = await hashPassword(password);
+      
+      if (hashedPassword === ADMIN_CONFIG.passwordHash) {
+        // Criar sessão (expire em 4 horas)
+        const sessionData = {
+          expires: Date.now() + (4 * 60 * 60 * 1000),
+          user: "admin"
+        };
+        localStorage.setItem(ADMIN_CONFIG.sessionKey, JSON.stringify(sessionData));
+        
+        showAdminPanel();
+        hideError();
+      } else {
+        showError("Senha incorreta. Tente novamente.");
+      }
+    }
+
+    function showError(message) {
+      const errorDiv = document.getElementById('loginError');
+      errorDiv.textContent = message;
+      errorDiv.classList.remove('hidden');
+    }
+
+    function hideError() {
+      document.getElementById('loginError').classList.add('hidden');
+    }
+
+    // Mostrar painel admin
+    function showAdminPanel() {
+      document.getElementById('loginForm').classList.add('hidden');
+      document.getElementById('adminPanel').classList.remove('hidden');
+      loadMenuItems();
+    }
+
+    // Carregar itens do menu
+    function loadMenuItems() {
+      const override = getMenuOverride();
+      
+      // Carregar proteínas
+      const proteinsList = document.getElementById('proteinsList');
+      proteinsList.innerHTML = '';
+      CONFIG.proteinas.forEach(protein => {
+        const available = override.proteins ? override.proteins[protein.nome] !== false : true;
+        proteinsList.appendChild(createMenuItem(protein.nome, 'protein', available));
+      });
+
+      // Carregar acompanhamentos
+      const accompanimentsList = document.getElementById('accompanimentsList');
+      accompanimentsList.innerHTML = '';
+      CONFIG.acompanhamentos.forEach(acc => {
+        const available = override.accompaniments ? override.accompaniments[acc] !== false : true;
+        accompanimentsList.appendChild(createMenuItem(acc, 'accompaniment', available));
+      });
+
+      // Carregar bebidas
+      const drinksList = document.getElementById('drinksList');
+      drinksList.innerHTML = '';
+      CONFIG.bebidas.forEach(drink => {
+        const available = override.drinks ? override.drinks[drink.nome] !== false : true;
+        drinksList.appendChild(createMenuItem(drink.nome, 'drink', available));
+      });
+
+      // Mostrar data da última atualização
+      if (override.lastUpdate) {
+        const updateDate = new Date(override.lastUpdate).toLocaleString('pt-BR');
+        const updateInfo = document.createElement('div');
+        updateInfo.style.cssText = `
+          background: var(--neutral-100);
+          padding: var(--spacing-3);
+          border-radius: var(--radius-lg);
+          margin-bottom: var(--spacing-4);
+          font-size: var(--font-size-sm);
+          color: var(--color-text-secondary);
+          text-align: center;
+        `;
+        updateInfo.innerHTML = `📅 Última atualização: ${updateDate}`;
+        
+        const adminPanel = document.querySelector('.admin-header');
+        adminPanel.appendChild(updateInfo);
+      }
+    }
+
+    // Criar item do menu
+    function createMenuItem(name, type, available) {
+      const div = document.createElement('div');
+      div.className = 'menu-item';
+      
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.checked = available;
+      checkbox.dataset.type = type;
+      checkbox.dataset.name = name;
+      
+      const label = document.createElement('label');
+      label.textContent = name;
+      
+      div.appendChild(checkbox);
+      div.appendChild(label);
+      
+      return div;
+    }
+
+    // Obter override do menu
+    function getMenuOverride() {
+      const stored = localStorage.getItem(ADMIN_CONFIG.menuOverrideKey);
+      return stored ? JSON.parse(stored) : {};
+    }
+
+    // Salvar alterações
+    function saveChanges() {
+      const override = {
+        proteins: {},
+        accompaniments: {},
+        drinks: {},
+        lastUpdate: new Date().toISOString()
+      };
+
+      // Coletar dados dos checkboxes
+      document.querySelectorAll('.menu-item input[type="checkbox"]').forEach(checkbox => {
+        const type = checkbox.dataset.type;
+        const name = checkbox.dataset.name;
+        const available = checkbox.checked;
+        
+        if (type === 'protein') {
+          override.proteins[name] = available;
+        } else if (type === 'accompaniment') {
+          override.accompaniments[name] = available;
+        } else if (type === 'drink') {
+          override.drinks[name] = available;
+        }
+      });
+
+      localStorage.setItem(ADMIN_CONFIG.menuOverrideKey, JSON.stringify(override));
+      showSaveStatus();
+    }
+
+    // Resetar menu
+    function resetMenu() {
+      if (confirm('Tem certeza que deseja resetar o cardápio para o padrão?')) {
+        localStorage.removeItem(ADMIN_CONFIG.menuOverrideKey);
+        loadMenuItems();
+        showSaveStatus("Cardápio resetado para o padrão!");
+      }
+    }
+
+    // Mostrar status de salvamento
+    function showSaveStatus(message = "✅ Cardápio atualizado com sucesso!") {
+      const statusDiv = document.getElementById('saveStatus');
+      statusDiv.textContent = message;
+      statusDiv.classList.add('show');
+      
+      setTimeout(() => {
+        statusDiv.classList.remove('show');
+      }, 3000);
+    }
+
+    // Logout
+    function logout() {
+      localStorage.removeItem(ADMIN_CONFIG.sessionKey);
+      document.getElementById('adminPanel').classList.add('hidden');
+      document.getElementById('loginForm').classList.remove('hidden');
+      document.getElementById('adminPassword').value = '';
+      hideError();
+    }
+
+    // Event Listeners
+    document.getElementById('loginBtn').addEventListener('click', handleLogin);
+    document.getElementById('adminPassword').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') handleLogin();
+    });
+    document.getElementById('saveChanges').addEventListener('click', saveChanges);
+    document.getElementById('resetMenu').addEventListener('click', resetMenu);
+    document.getElementById('logoutBtn').addEventListener('click', logout);
+
+    // Ações rápidas
+    document.getElementById('enableAll').addEventListener('click', () => {
+      document.querySelectorAll('.menu-item input[type="checkbox"]').forEach(cb => cb.checked = true);
+    });
+    
+    document.getElementById('disableAll').addEventListener('click', () => {
+      document.querySelectorAll('.menu-item input[type="checkbox"]').forEach(cb => cb.checked = false);
+    });
+    
+    document.getElementById('todaySpecial').addEventListener('click', () => {
+      // Desmarcar tudo primeiro
+      document.querySelectorAll('.menu-item input[type="checkbox"]').forEach(cb => cb.checked = false);
+      
+      // Configuração especial do dia (pode ser customizada)
+      const todaySpecialItems = [
+        'Strogonoff de frango',
+        'Frango grelhado',
+        'Arroz',
+        'Feijão',
+        'Salada verde',
+        'Farofa',
+        'Refrigerante 350ml',
+        'Suco natural 300ml'
+      ];
+      
+      document.querySelectorAll('.menu-item input[type="checkbox"]').forEach(cb => {
+        if (todaySpecialItems.includes(cb.dataset.name)) {
+          cb.checked = true;
+        }
+      });
+      
+      showSaveStatus("✨ Prato do dia configurado! Lembre-se de salvar.");
+    });
+
+    // Inicialização
+    document.addEventListener('DOMContentLoaded', () => {
+      checkSession();
+    });
+  </script>
+</body>
+</html>
