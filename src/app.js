@@ -25,6 +25,31 @@ function autoReloadApp() {
   }, 120000);
 }
 
+// Forçar atualização logo após abrir/voltar ao app
+function freshnessOnOpen() {
+  const stampKey = 'marmitaone_last_open';
+  const now = Date.now();
+  const last = Number(localStorage.getItem(stampKey) || 0);
+  localStorage.setItem(stampKey, String(now));
+  // If app opened after >30s from last time or the page just became visible, trigger a quick refresh
+  const trigger = () => {
+    try {
+      localStorage.setItem(STORAGE_CART_KEY, JSON.stringify(CART));
+      localStorage.setItem(STORAGE_MODE_KEY, MODE);
+    } catch {}
+    // Use no-store to bypass HTTP cache
+    window.location.replace(window.location.href.split('#')[0] + (window.location.search ? '' : ''));
+  };
+  if (!document.hidden && (now - last > 30_000)) {
+    setTimeout(trigger, 500);
+  }
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      setTimeout(trigger, 300);
+    }
+  });
+}
+
 // Helpers DOM
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
@@ -673,6 +698,7 @@ function boot() {
   onPagamento();
   renderPreview();
   autoReloadApp();
+  freshnessOnOpen();
   // Expor para debug/autoReload
   window.CART = CART;
   window.MODE = MODE;

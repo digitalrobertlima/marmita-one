@@ -1,6 +1,5 @@
 const CACHE_NAME = 'marmita-cache-v2';
 const ASSETS = [
-  'index.html',
   'manifest.json',
   'src/app.js',
   'src/app.css',
@@ -14,6 +13,7 @@ self.addEventListener('install', event => {
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(urlsToCache))
   );
+  self.skipWaiting();
 });
 
 self.addEventListener('fetch', (event) => {
@@ -34,15 +34,22 @@ self.addEventListener('fetch', (event) => {
   }
   // Para HTML, use network-first para pegar atualizações
   if (req.mode === 'navigate') {
-    event.respondWith(
-      fetch(req)
-        .then((res) => {
-          const copy = res.clone();
-          caches.open(CACHE_NAME).then((c) => c.put(req, copy));
-          return res;
-        })
-        .catch(() => caches.match(req))
-    );
+    event.respondWith((async () => {
+      try {
+        // Force no-store to avoid HTTP cache; always hit origin
+        const fresh = await fetch(new Request(req.url, { cache: 'no-store' }));
+        // Optionally update the cache copy for offline usage
+        const copy = fresh.clone();
+        caches.open(CACHE_NAME).then((c) => c.put(req, copy));
+        return fresh;
+      } catch (e) {
+        // Fallback to any cached navigation if offline
+        const cached = await caches.match(req);
+        if (cached) return cached;
+        // As a last resort, return a minimal offline page
+        return new Response('<!doctype html><title>Offline</title><h1>Sem conexão</h1>', { headers: { 'Content-Type': 'text/html; charset=utf-8' } });
+      }
+    })());
     return;
   }
   // Demais: cache-first
@@ -61,4 +68,5 @@ self.addEventListener('activate', event => {
       keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
     ))
   );
+  self.clients.claim();
 });
