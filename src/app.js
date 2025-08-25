@@ -148,13 +148,13 @@ function renderBuilderIOS() {
         <input id="ios-acc" type="text" inputmode="text" placeholder="Ex.: Arroz, Feijão, Salada verde">
       </div>
       <div>
-        <label for="ios-add2">➕ Adicionais (+R$2 cada)</label>
+        <label for="ios-add2">➕ Adicionais (+${fmt(APP_CONFIG.regras.precoAdicional)} cada)</label>
         <input id="ios-add2" type="text" inputmode="text" placeholder="Ex.: Arroz separado, Molho extra">
       </div>
     </div>
     <div class="row">
       <div>
-        <label for="ios-add8">🍖 Carnes extras (+R$8 cada)</label>
+        <label for="ios-add8">🍖 Carnes extras (+${fmt(APP_CONFIG.regras.precoCarneExtra)} cada)</label>
         <input id="ios-add8" type="text" inputmode="text" placeholder="Ex.: Porção extra de strogonoff">
       </div>
       <div>
