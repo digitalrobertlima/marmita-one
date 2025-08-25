@@ -3,13 +3,13 @@ export const APP_CONFIG = {
   nome: "Restaurante da Célia",
   sub: "Seu prato, seu jeito. Monte agora!",
   whatsapp: "5531992034948",
-  cutoff: "14:30",
+  cutoff: "13:50",
   tema: { cor: "#1976d2", background: "#ffffff" },
   regras: {
     limiteAcompanhamentos: 0, // 0 = sem limite
     obrigatorios: ["tamanho", "proteina"],
     precoAdicional: 2.0,
-    precoCarneExtra: 8.0,
+    precoCarneExtra: 9.0,
   },
   tamanhos: [
     { id: "p", nome: "Pequena (P)", valor: 18 },
@@ -23,7 +23,7 @@ export const APP_CONFIG = {
     "Arroz", "Feijão", "Angu", "Farofa", "Batata Ensopada", "Quiabo", "Almeirão Refogado", "Saladas",
   ],
   adicionais2: ["Arroz separado", "Molho extra", "Batata palha", "Queijo ralado"],
-  carnesExtras8: ["Strogonoff extra", "Porção extra de carne", "Filé extra"],
+  carnesExtras: ["Porção de carne extra", "Filé extra"],
   bebidas: [
     { nome: "Coca Pequena", valor: 3.5, aliases: ["coca pequena"] },
     { nome: "Coca Lata", valor: 6.0, aliases: ["coca lata", "coca"] },

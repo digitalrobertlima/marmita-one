@@ -329,7 +329,7 @@ function mountOptions() {
   // carnes extras 8
   const add8Box = $('#sec-add8');
   add8Box.innerHTML = '';
-  APP_CONFIG.carnesExtras8.forEach((n) => {
+  APP_CONFIG.carnesExtras.forEach((n) => {
     const lbl = document.createElement('label');
     lbl.className = 'chip';
     lbl.innerHTML = `<input type="checkbox" value="${n}" data-extra="${APP_CONFIG.regras.precoCarneExtra}"> ${n} (+${fmt(APP_CONFIG.regras.precoCarneExtra)})`;
@@ -410,7 +410,7 @@ function getItemAtualIOS() {
     return m ? (m.nome || m) : term;
   });
   const add8 = splitList(tAdd8).map((term) => {
-    const m = matchFromListTerm(APP_CONFIG.carnesExtras8.map((n) => ({ nome: n })), term);
+    const m = matchFromListTerm(APP_CONFIG.carnesExtras.map((n) => ({ nome: n })), term);
     return m ? (m.nome || m) : term;
   });
   const bebidas = splitList(tBeb).map((term) => {
