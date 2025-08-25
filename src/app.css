@@ -1,0 +1,54 @@
+/* CSS extraído do index.html para modularização */
+:root{
+  --bg:#fbfbfb; --card:#fff; --text:#151515; --muted:#666; --stroke:#e8e8e8;
+  --brand:#0a7d4f; --accent:#e63946; --focus:#1c6ef2; --promo:#ffb703;
+  --radius:14px; --shadow:0 8px 24px rgba(0,0,0,.06); --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,"Helvetica Neue",Arial}
+.wrap{max-width:1024px;margin:0 auto;padding:18px clamp(14px,3vw,28px)}
+header{text-align:center;margin:6px 0 12px}
+header h1{margin:6px 0 4px;font-size:clamp(22px,6vw,34px)}
+header p{margin:0;color:var(--muted)}
+.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#f6f6f6;border:1px solid var(--stroke);font-size:14px}
+.topbar{position:static;top:auto;z-index:10;background:#fff; border-top:1px solid var(--stroke); margin-top:16px}
+.topbar-inner{max-width:1024px;margin:0 auto;display:flex;gap:8px;align-items:center;justify-content:space-between;padding:10px 14px}
+.btn{display:inline-flex;align-items:center;gap:8px;justify-content:center;padding:10px 12px;border-radius:12px;border:1px solid var(--stroke);cursor:pointer;font-weight:700;background:#fff}
+.btn-primary{background:var(--brand);color:#fff;border:0}
+.btn-ghost{border:1px dashed var(--stroke);color:#666}
+.btn-danger{background:#fff;color:var(--accent);border-color:#ffd5d8}
+.btn-promo{background:var(--promo);color:#402d00;border:0}
+.logo-square{width:40px;height:40px;border-radius:10px;background:#e10600;border:2px solid #b30000;box-shadow:0 2px 8px rgba(225,6,0,.15)}
+.brand-mark{display:flex;align-items:center;gap:10px;justify-content:center}
+.grid{display:grid;gap:12px}
+@media(min-width:980px){ .grid{grid-template-columns: 2fr 1fr} }
+.card{background:var(--card);border:1px solid var(--stroke);border-radius:var(--radius);box-shadow:var(--shadow);padding:clamp(14px,2.6vw,20px)}
+.card h2{margin:0 0 10px;font-size:18px;display:flex;align-items:center;gap:8px}
+.hint{color:var(--muted);font-size:13px}
+fieldset{border:0;margin:0;padding:0}
+label{display:block;font-weight:600;margin-bottom:6px}
+input[type="text"],input[type="tel"],input[type="time"],input[type="number"],textarea,select{
+  width:100%;padding:12px;border-radius:12px;border:1px solid var(--stroke);background:#fff;font-size:15px
+}
+textarea{min-height:84px;resize:vertical}
+input:focus,select:focus,textarea:focus,button:focus{outline:3px solid color-mix(in oklab,var(--focus) 65%,transparent);outline-offset:2px}
+.list{display:grid;gap:8px}
+.item{display:grid;grid-template-columns:1fr auto auto;gap:10px;align-items:center;border:1px solid var(--stroke);border-radius:12px;padding:10px 12px;background:#fff}
+.price{color:var(--brand);font-weight:700}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid var(--stroke);border-radius:999px;background:#fff;user-select:none}
+.chip input{accent-color:var(--brand)}
+.chip:has(input:checked){border-color:var(--brand)}
+.row{display:grid;grid-template-columns:1fr;gap:10px}
+@media(min-width:760px){ .row{grid-template-columns:1fr 1fr} }
+.actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.cart{position:sticky;top:70px}
+.cart-list{display:grid;gap:8px;margin-top:8px}
+.cart-item{border:1px solid var(--stroke);border-radius:12px;padding:10px;background:#fff}
+.cart-item h3{margin:0 0 6px;font-size:15px}
+.cart-mini{color:#333;font-size:13px;white-space:pre-wrap}
+.total{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding-top:8px;border-top:1px dashed var(--stroke)}
+.preview{width:100%;min-height:140px;white-space:pre-wrap;border:1px dashed var(--stroke);border-radius:12px;padding:10px;background:#fff;font-family:var(--mono);font-size:13px}
+.notice{margin-top:10px;padding:10px;border:1px dashed #ffd48a;background:#fff8e1;border-radius:12px;color:#634300}
+.hide{display:none !important}
+footer{color:var(--muted);font-size:12px;text-align:center;margin:18px 0 8px}
