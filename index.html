@@ -4,7 +4,10 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MARMITA.ONE v0.3.1 • Modo iPhone com Opções + Aviso de Taxa</title>
-  <meta name="format-detection" content="telephone=no">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1976d2">
+    <link rel="icon" href="icons/icon-192x192.png" sizes="192x192">
   <style>
     :root{
       --bg:#fbfbfb; --card:#fff; --text:#151515; --muted:#666; --stroke:#e8e8e8;
@@ -270,6 +273,18 @@
   </div>
 
 <script>
+// Registro do Service Worker para PWA
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function() {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(function(registration) {
+        console.log('ServiceWorker registrado com sucesso:', registration);
+      })
+      .catch(function(error) {
+        console.log('Falha ao registrar o ServiceWorker:', error);
+      });
+  });
+}
 const CONFIG = {
   identidade: { nome:"Restaurante da Célia", sub:"Seu prato, seu jeito. Monte agora!", cutoff:"14:30" },
   regras: { limiteAcompanhamentos: null, obrigatorios:["tamanho","proteina"], precoAdicional:2, precoCarneExtra:8 },
