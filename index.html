@@ -285,51 +285,22 @@ if ('serviceWorker' in navigator) {
       });
   });
 }
+
+// Atualização automática do app a cada 2 minutos
+function autoReloadApp() {
+  setInterval(function() {
+    // Salva estado do carrinho e modo
+    try {
+      localStorage.setItem(STORAGE_CART_KEY, JSON.stringify(CART));
+      localStorage.setItem(STORAGE_MODE_KEY, MODE);
+    } catch(e) {}
+    // Recarrega a página sem perder estado do usuário
+    location.reload();
+  }, 120000); // 2 minutos
+}
 const CONFIG = {
   identidade: { nome:"Restaurante da Célia", sub:"Seu prato, seu jeito. Monte agora!", cutoff:"14:30" },
   regras: { limiteAcompanhamentos: null, obrigatorios:["tamanho","proteina"], precoAdicional:2, precoCarneExtra:8 },
-
-    <header>
-      <div class="brand-mark" aria-hidden="true"><span class="logo-square" role="img" aria-label="Logo"></span></div>
-      <h1 id="resto-nome">Restaurante (CONFIG)</h1>
-      <p id="resto-sub">Seu prato, seu jeito. Monte agora!</p>
-      <div class="pill">⏰ Pedidos até <strong id="cutoff-label">14:30</strong></div>
-    </header>
-
-    <!-- Tela inicial de escolha de fluxo -->
-    <section class="card" id="start-menu">
-      <h2>Como deseja montar sua marmita?</h2>
-      <div class="actions" style="margin-top:18px">
-        <button class="btn btn-primary" id="btn-flow-custom">Quero montar minha marmita</button>
-        <button class="btn btn-promo" id="btn-flow-preset">Escolher opções prontas</button>
-      </div>
-    </section>
-
-    <div id="main-flows" class="hide">
-      <div class="grid">
-        <section class="card" id="builder-default">
-          ...existing code...
-        </section>
-        <section class="card hide" id="builder-ios">
-          ...existing code...
-        </section>
-        <aside class="card cart" id="cart">
-          ...existing code...
-        </aside>
-      </div>
-      <section class="card" id="checkout" style="margin-top:12px">
-        ...existing code...
-      </section>
-      <footer>
-        ...existing code...
-      </footer>
-      <div class="topbar">
-        ...existing code...
-      </div>
-    </div>
-    { nome:"Suco Kapo", valor:3.50, aliases:["suco kapo","kapo","suco de caixinha","suco caixinha","caixinha"] },
-    { nome:"Suco Lata", valor:6.00, aliases:["suco","suco lata"] }
-  ],
   presetsIOS: {
     opcao1: {
       label:"Opção 1",
