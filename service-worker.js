@@ -18,6 +18,20 @@ self.addEventListener('install', event => {
 
 self.addEventListener('fetch', (event) => {
   const req = event.request;
+  const url = new URL(req.url);
+  // Serve safe placeholder PNGs for icons if files are missing
+  if (url.pathname.endsWith('/icons/icon-192x192.png') || url.pathname.endsWith('/icons/icon-512x512.png')) {
+    event.respondWith((async () => {
+      try {
+        const res = await fetch(req);
+        if (res && res.ok) return res;
+      } catch {}
+      const b64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGNgYAAAAAMAASsJTYQAAAAASUVORK5CYII='; // 1x1 transparent PNG
+      const bytes = Uint8Array.from(atob(b64), c => c.charCodeAt(0));
+      return new Response(bytes, { headers: { 'Content-Type': 'image/png', 'Cache-Control': 'public, max-age=31536000, immutable' } });
+    })());
+    return;
+  }
   // Para HTML, use network-first para pegar atualizações
   if (req.mode === 'navigate') {
     event.respondWith(
