@@ -1,0 +1,49 @@
+Checklist de alterações para whitelabel Marmita.ONE (v0.0.1)
+
+1. Nome e identidade visual
+- Alterar nome do restaurante em index.html e manifest.json
+- Atualizar ícones em /icons para a marca do cliente
+- Modificar cores e tema em index.html e manifest.json
+
+2. Informações de contato
+- Atualizar número do WhatsApp em index.html (id="wa-number")
+- Revisar textos de contato e instruções
+
+3. Configurações de produto
+- Editar opções de tamanhos, proteínas, acompanhamentos, adicionais e bebidas no JS principal
+- Ajustar preços conforme necessidade do cliente
+
+4. Textos e mensagens
+- Personalizar mensagens de checkout, agradecimento e instruções no JS
+- Revisar textos de aviso de taxa, promoções, etc.
+
+5. Ícones e imagens
+- Substituir /icons/icon-192x192.png e /icons/icon-512x512.png pelos ícones do cliente
+- Adicionar outros tamanhos se necessário
+
+6. Service Worker e PWA
+- Validar funcionamento offline e instalabilidade
+- Testar em diferentes navegadores e dispositivos
+
+7. Modularização e qualidade
+- Separar lógica JS em módulos na pasta /src
+- Configurar ESLint e Prettier para padronização
+- Adicionar README.md com instruções de uso e personalização
+
+8. Testes e publicação
+- Testar todas as funcionalidades
+- Criar tag v0.0.1 no GitHub
+- Documentar o processo de publicação e atualização
+
+Estratégia para whitelabel:
+- Padronizar pontos de personalização (nome, ícones, textos, preços)
+- Documentar cada etapa para facilitar replicação
+- Automatizar deploy e publicação futura
+- Manter código limpo e modular para fácil manutenção
+
+Próximos passos:
+- Realizar as alterações acima
+- Validar funcionamento
+- Gerar README.md
+- Criar a tag v0.0.1
+- Publicar e documentar no GitHub

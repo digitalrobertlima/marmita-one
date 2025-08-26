@@ -1,0 +1,71 @@
+// Configurações whitelabel centralizadas
+export const APP_CONFIG = {
+  nome: "Restaurante da Célia",
+  sub: "Seu prato, seu jeito. Monte agora!",
+  whatsapp: "5531992034948",
+  cutoff: "13:50",
+  tema: { cor: "#1976d2", background: "#ffffff" },
+  regras: {
+    limiteAcompanhamentos: 0, // 0 = sem limite
+    obrigatorios: ["tamanho", "proteina"],
+    precoAdicional: 2.0,
+    precoCarneExtra: 9.0,
+  },
+  tamanhos: [
+    { id: "p", nome: "Pequena (P)", valor: 18 },
+    { id: "g", nome: "Grande (G)", valor: 20 },
+  ],
+  proteinas: [
+    { nome: "Bife de Frango" },
+    { nome: "Carne Cozida" },
+  ],
+  acompanhamentos: [
+    "Arroz", "Feijão", "Angu", "Farofa", "Batata Ensopada", "Quiabo", "Almeirão Refogado", "Saladas",
+  ],
+  adicionais2: ["Arroz separado", "Molho extra", "Batata palha", "Queijo ralado"],
+  carnesExtras: ["Porção de carne extra", "Filé extra"],
+  bebidas: [
+    { nome: "Coca Pequena", valor: 3.5, aliases: ["coca pequena"] },
+    { nome: "Coca Lata", valor: 6.0, aliases: ["coca lata", "coca"] },
+    { nome: "Coca 1 Litro", valor: 10.5, aliases: ["coca 1l", "coca 1 litro"] },
+    { nome: "Coca 600 ml", valor: 7.5, aliases: ["coca 600", "coca 600ml"] },
+    { nome: "Coca 2 Litros", valor: 13.0, aliases: ["coca 2l", "coca 2 litros"] },
+    { nome: "Mate Couro 2 L", valor: 11.0, aliases: ["mate couro 2l", "mate 2l", "matecouro 2l"] },
+    { nome: "Mate Couro 1 L", valor: 8.5, aliases: ["mate couro 1l", "mate 1l", "matecouro 1l"] },
+    { nome: "Água mineral", valor: 3.5, aliases: ["agua", "agua mineral"] },
+    { nome: "Água c/ gás", valor: 4.0, aliases: ["agua com gas", "agua c gas", "água com gás"] },
+    { nome: "Coca Ks", valor: 6.0, aliases: ["coca ks", "ks"] },
+    { nome: "Suco lata", valor: 6.0, aliases: ["suco lata", "suco"] },
+    { nome: "Suco delValle 1 Litro", valor: 10.5, aliases: ["suco del valle 1l", "delvalle 1l"] },
+    { nome: "Suco Kapo", valor: 3.5, aliases: ["suco kapo", "kapo", "suco caixinha", "caixinha"] },
+    { nome: "Suco natural 1 Litro", valor: 19.0, aliases: ["suco natural 1l", "natural 1l"] },
+  ],
+  presetsIOS: {
+    opcao1: {
+      label: "Opção 1",
+  tamanho: "G",
+  proteina: "Bife de Frango",
+  acc: "Arroz, Feijão, Angu, Quiabo, Almeirão Refogado, Saladas",
+      add2: "",
+      add8: "",
+      bebidas: "",
+      obs: "",
+    },
+    opcao2: {
+      label: "Opção 2",
+  tamanho: "G",
+  proteina: "Carne Cozida",
+  acc: "Arroz, Feijão, Farofa, Batata Ensopada, Saladas",
+      add2: "",
+      add8: "",
+      bebidas: "",
+      obs: "",
+    },
+  },
+  msg: {
+    titulo: "🍱 Pedido de Marmitas",
+    agradecimento: "Obrigada! 🙌",
+    notaPIX: "Produção inicia após envio do comprovante PIX.",
+    taxaAviso: "Taxa de entrega será calculada no WhatsApp conforme a região.",
+  },
+};
