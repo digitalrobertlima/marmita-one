@@ -16,13 +16,14 @@ export const APP_CONFIG = {
     { id: "g", nome: "Grande (G)", valor: 20 },
   ],
   proteinas: [
-    { nome: "Bife de Frango" },
-    { nome: "Carne Cozida" },
+    { nome: "Filé de Peixe (s/ espinho)" },
+    { nome: "Bife de Porco" },
+    { nome: "Bife de Frango"},
   ],
   acompanhamentos: [
-    "Arroz", "Feijão", "Angu", "Farofa", "Batata Ensopada", "Quiabo", "Almeirão Refogado", "Saladas",
+    "Arroz", "Feijão", "Cará", "Farofa", "Couve-flor à milanesa", "Purê de batata", "Saladas",
   ],
-  adicionais2: ["Arroz separado", "Molho extra", "Batata palha", "Queijo ralado"],
+  adicionais2: ["Item separado"],
   carnesExtras: ["Porção de carne extra", "Filé extra"],
   bebidas: [
     { nome: "Coca Pequena", valor: 3.5, aliases: ["coca pequena"] },
